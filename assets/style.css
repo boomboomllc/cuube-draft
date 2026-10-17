@@ -231,3 +231,4 @@ footer a { color: var(--ink-2); }
   .next h3 { font-size: 22px; }
   .ph.hero { min-height: 280px; }
 }
+.lnav a.btn { color: #fff; }
