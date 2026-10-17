@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Your CUUBE</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="design">
+
+<section class="tight">
+  <div class="wrap">
+    <div class="center">
+      <p class="eyebrow">Design Your Building</p>
+      <h2>Make it yours in four steps.</h2>
+      <p class="sub">No commitment. We'll send a tailored quote and floor plan.</p>
+    </div>
+
+    <div class="builder">
+      <div class="preview">
+        <div class="ph" id="pv-label">Live 3D preview placeholder</div>
+        <div class="summary"><h3 style="font-size:17px;margin-bottom:12px">Your building</h3><dl id="summary"></dl></div>
+      </div>
+
+      <div>
+        <div class="bstep">
+          <h3><span class="n">1</span>Choose a model</h3><p>Size sets what fits inside. <a href="models.html#compare">Compare models</a></p>
+          <div class="opts" data-group="model">
+            <button class="opt" data-val="36" data-label="CUUBE 36">CUUBE 36<small>[X,XXX sq ft]</small></button>
+            <button class="opt" data-val="60" data-label="CUUBE 60">CUUBE 60<small>[X,XXX sq ft]</small></button>
+            <button class="opt" data-val="100" data-label="CUUBE 100">CUUBE 100<small>[X,XXX sq ft]</small></button>
+          </div>
+        </div>
+
+        <div class="bstep">
+          <h3><span class="n">2</span>What will it be used for?</h3><p>We'll suggest a floor plan.</p>
+          <div class="opts" data-group="use">
+            <button class="opt" data-val="classroom" data-label="Classrooms">Classrooms</button>
+            <button class="opt" data-val="upk" data-label="UPK / TK">UPK / TK</button>
+            <button class="opt" data-val="gym" data-label="Gym / Rec">Gym / Rec</button>
+            <button class="opt" data-val="multipurpose" data-label="Multipurpose / Cafeteria">Multipurpose / Cafeteria</button>
+            <button class="opt" data-val="restroom" data-label="Restrooms">Restrooms</button>
+            <button class="opt" data-val="office" data-label="Offices">Offices</button>
+          </div>
+        </div>
+
+        <div class="bstep">
+          <h3><span class="n">3</span>Pick a look</h3><p>Exterior panel color and roof style.</p>
+          <div class="swatches" data-group="color">
+            <span class="sw" data-val="Slate" style="background:#5b6670"></span>
+            <span class="sw" data-val="Sand" style="background:#d8c7a6"></span>
+            <span class="sw" data-val="Teal" style="background:#0a7c6b"></span>
+            <span class="sw" data-val="White" style="background:#f2f2f2"></span>
+            <span class="sw" data-val="Brick" style="background:#9b4a36"></span>
+          </div>
+          <div class="opts" data-group="roof" style="margin-top:16px">
+            <button class="opt" data-val="Low slope">Low slope</button>
+            <button class="opt" data-val="Gable">Gable</button>
+            <button class="opt" data-val="Shed / mono">Shed / mono</button>
+          </div>
+        </div>
+
+        <div class="bstep">
+          <h3><span class="n">4</span>Add options</h3><p>Select any that apply.</p>
+          <div class="opts" data-group="extras" data-multi>
+            <button class="opt" data-val="Clerestory windows">Clerestory windows</button>
+            <button class="opt" data-val="Roll-up doors">Roll-up doors</button>
+            <button class="opt" data-val="Storefront entry">Storefront entry</button>
+            <button class="opt" data-val="Solar-ready">Solar-ready</button>
+            <button class="opt" data-val="Solatubes">Solatubes</button>
+            <button class="opt" data-val="Bottle-fill station">Bottle-fill station</button>
+          </div>
+        </div>
+
+        <div class="bstep">
+          <h3><span class="n">5</span>Get your quote</h3><p>A specialist will reply within <span class="tbd">[X business days]</span>.</p>
+          <form class="lead" onsubmit="event.preventDefault();alert('Draft only — form not connected.')" style="margin-top:0">
+            <label>Name<input></label>
+            <label>Organization<input placeholder="District, city, or county"></label>
+            <label>Email<input type="email"></label>
+            <label>Phone<input></label>
+            <label class="full">Your selections<textarea id="msg" readonly></textarea></label>
+            <div class="full"><button class="btn">Request my quote</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
