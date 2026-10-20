@@ -482,5 +482,5 @@ a.mission .link { display: inline-block; margin-top: 10px; color: #9fd2ff; }
 .lnav a.btn:hover { background: var(--accent-2); }
 
 /* Anchor jumps: land below the sticky nav (+ context bar) so section padding stays visible */
-html { scroll-padding-top: 64px; }
-html:has(.lnav) { scroll-padding-top: 116px; }
+html { scroll-padding-top: 8px; }
+html:has(.lnav) { scroll-padding-top: 64px; }
