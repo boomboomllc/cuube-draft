@@ -232,3 +232,32 @@ footer a { color: var(--ink-2); }
   .ph.hero { min-height: 280px; }
 }
 .lnav a.btn { color: #fff; }
+
+/* Real photography */
+img.ph { display: block; width: 100%; object-fit: cover; padding: 0; background: var(--ph); }
+img.ph.hero { height: 520px; }
+img.ph.tall { height: 400px; }
+.card img.ph { height: 200px; min-height: 0; }
+.model img.ph.sq { height: auto; aspect-ratio: 1; }
+.door img.ph { position: absolute; inset: 0; height: 100%; border-radius: 0; filter: brightness(.55); }
+.g5 { grid-template-columns: repeat(5, 1fr); gap: 16px; }
+.g5 .card { padding: 18px; }
+.g5 h3 { font-size: 20px; }
+.series h2 { font-size: clamp(36px, 5vw, 56px); margin-bottom: 12px; }
+.series h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-2); margin: 22px 0 10px; }
+.sizes { display: flex; flex-wrap: wrap; gap: 8px; }
+.sizes a { border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 8px 16px; border-radius: 980px; font-weight: 600; font-size: 15px; }
+.sizes a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.opts-list { padding-left: 18px; color: var(--ink-2); display: grid; gap: 4px; margin-bottom: 24px; }
+.plan { background: #fff; border-radius: var(--radius); padding: 20px; margin-top: 8px; border: 1px solid var(--line); }
+.plan img { width: 100%; display: block; }
+.plan figcaption { color: var(--ink-2); font-size: 15px; margin-top: 10px; }
+.plan figcaption b { color: var(--ink); }
+.gallery { margin-top: 24px; }
+.gallery img { width: 100%; height: 240px; object-fit: cover; border-radius: var(--radius); display: block; }
+.incl img { width: 100%; height: 170px; object-fit: cover; border-radius: 14px; background: #fff; }
+@media (max-width: 1000px) { .g5 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px) { .g5 { grid-template-columns: repeat(2, 1fr); } img.ph.hero { height: 300px; } img.ph.tall { height: 280px; } .gallery img { height: 200px; } }
+.pv-wrap { position: relative; }
+.pv-wrap img.ph { height: 420px; }
+.pv-label { position: absolute; left: 12px; bottom: 12px; right: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: 13px; padding: 8px 12px; border-radius: 12px; }

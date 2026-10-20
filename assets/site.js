@@ -88,7 +88,10 @@
         Model: state.model, Use: state.use, Exterior: state.color, Roof: state.roof, Extras: state.extras,
       }).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
       document.getElementById("pv-label").textContent =
-        `Live 3D preview placeholder — ${state.model} · ${state.use} · ${state.color}`;
+        `${state.model} · ${state.use} · ${state.color} — live 3D preview coming`;
+      const on = builder.querySelector('[data-group="model"] .on');
+      const pv = document.getElementById("pv-img");
+      if (on && pv) pv.src = `assets/img/series-${on.dataset.val.split("x")[0]}.jpg`;
       const msg = document.getElementById("msg");
       if (msg) msg.value = Object.entries(state).map(([k, v]) => `${k}: ${v}`).join("\n");
     }
