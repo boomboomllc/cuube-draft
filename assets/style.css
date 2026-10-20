@@ -480,3 +480,7 @@ a.mission .link { display: inline-block; margin-top: 10px; color: #9fd2ff; }
 /* Context bar action: outlined accent, so only the global CTA is a solid blue button */
 .lnav a.btn, .lnav a.btn:hover { background: transparent; box-shadow: none; transform: none; color: var(--accent); border: 1.5px solid var(--accent); padding: 5px 14px; font-weight: 600; }
 .lnav a.btn:hover { background: var(--accent-2); }
+
+/* Anchor jumps: land below the sticky nav (+ context bar) so section padding stays visible */
+html { scroll-padding-top: 64px; }
+html:has(.lnav) { scroll-padding-top: 116px; }
