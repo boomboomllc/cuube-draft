@@ -447,3 +447,6 @@ img.ph, .gallery img, .plan, .door, .summary { border-radius: var(--radius); }
 .grid > .reveal:nth-child(5) { transition-delay: .32s; }
 @media (prefers-reduced-motion: reduce) { .reveal { transition: none; transform: none; filter: none; opacity: 1; } * { scroll-behavior: auto; } }
 .dark .ilist .ic { background: linear-gradient(135deg, rgba(0,101,204,.35), rgba(34,166,240,.2)); color: #9fd2ff; border: 1px solid rgba(111,177,245,.3); border-radius: 10px; }
+.kit-ic { font-family: var(--display); font-weight: 800; font-size: 14px; letter-spacing: .08em; color: #fff; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(135deg, #0a74e0, #22a6f0); box-shadow: 0 8px 18px -8px rgba(0,101,204,.6); }
+.note { color: var(--ink-2); font-size: 13px; margin-top: 16px; text-align: center; }
+.compare td b { color: var(--ink); }
