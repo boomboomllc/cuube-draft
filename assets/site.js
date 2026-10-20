@@ -4,6 +4,7 @@
   const links = [
     ["schools.html", "For Schools", "schools"],
     ["cities.html", "For Cities & Counties", "cities"],
+    ["federal.html", "For Federal", "federal"],
     ["why-cuube.html", "Why CUUBE", "why"],
     ["models.html", "Models", "models"],
     ["projects.html", "Projects", "projects"],
@@ -26,7 +27,7 @@
       <div class="cols">
         <div><h5>Who it's for</h5><ul>
           <li><a href="schools.html">K–12 Schools</a></li><li><a href="schools.html#upk">UPK / TK</a></li>
-          <li><a href="cities.html">Cities & Counties</a></li><li><a href="cities.html#parks">Parks & Rec</a></li></ul></div>
+          <li><a href="cities.html">Cities & Counties</a></li><li><a href="cities.html#parks">Parks & Rec</a></li><li><a href="federal.html">Federal & Defense</a></li></ul></div>
         <div><h5>The building</h5><ul>
           <li><a href="why-cuube.html">Why CUUBE</a></li><li><a href="models.html">Models</a></li>
           <li><a href="models.html#compare">Compare models</a></li><li><a href="design.html">Design your building</a></li></ul></div>
@@ -94,6 +95,10 @@
       if (on && pv) pv.src = `assets/img/series-${on.dataset.val.split("x")[0]}.jpg`;
       const msg = document.getElementById("msg");
       if (msg) msg.value = Object.entries(state).map(([k, v]) => `${k}: ${v}`).join("\n");
+    }
+    if (params.get("sector") === "federal") {
+      const org = document.querySelector('form.lead input[placeholder^="District"]');
+      if (org) org.placeholder = "Agency, base, or installation";
     }
     update();
   }
