@@ -13,7 +13,7 @@
   const header = `
     <div class="draft-bar">Draft layout · placeholder content and images · not for distribution</div>
     <nav class="gnav"><div class="wrap">
-      <a class="logo" href="index.html">CUU<span>BE</span></a>
+      <a class="logo" href="index.html"><img src="assets/img/cuube-logo.png" alt="CUUBE"></a>
       <ul id="gmenu">
         ${links.map(([h, t, k]) => `<li><a href="${h}" class="${k === page ? "on" : ""}">${t}</a></li>`).join("")}
       </ul>
