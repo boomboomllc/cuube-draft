@@ -132,7 +132,7 @@
       Object.assign(state, colors);
       const dl = document.getElementById("summary");
       dl.innerHTML = Object.entries({
-        Model: state.model, Use: state.use, Panels: state.panels, Beams: state.beams, Field: state.field,
+        Model: state.model, Use: state.use, Panels: state.panels, Beams: state.beams, Columns: state.columns, Field: state.field,
         Doors: state.doors, Trim: state.trim, Roof: state.roof, Accent: state.accent, Extras: state.extras,
       }).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
       document.getElementById("pv-label").textContent =
