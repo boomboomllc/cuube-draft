@@ -495,3 +495,4 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 .opts[data-group="model"] { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
 .opts[data-group="model"] .opt { padding: 8px 10px; font-size: 14px; }
 .opts[data-group="model"] .opt small { font-size: 11px; margin-top: 0; }
+.use-other { margin-top: 10px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 15px; }

@@ -124,12 +124,20 @@
       btn.addEventListener("click", () => set(!btn.dataset.open));
       set(extra.some((el) => el.classList.contains("on")));
     });
+    builder.querySelector(".use-other")?.addEventListener("input", () => update());
     function update() {
       builder.querySelectorAll("[data-group]").forEach((g) => {
         const on = [...g.querySelectorAll(".on")].map((o) => o.dataset.label || o.dataset.val);
         state[g.dataset.group] = on.length ? on.join(", ") : "None";
       });
       Object.assign(state, colors);
+      const other = builder.querySelector(".use-other");
+      if (other) {
+        const on = builder.querySelector('[data-group="use"] [data-val="other"]').classList.contains("on");
+        if (on && other.hidden) { other.hidden = false; other.focus(); }
+        other.hidden = !on;
+        if (on) state.use = other.value.trim() || "Other";
+      }
       const dl = document.getElementById("summary");
       dl.innerHTML = Object.entries({
         Model: state.model, Use: state.use, "Field panels": state.field, "Accent panels": state.accent, Columns: state.columns,
