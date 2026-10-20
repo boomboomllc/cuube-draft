@@ -484,3 +484,6 @@ a.mission .link { display: inline-block; margin-top: 10px; color: #9fd2ff; }
 /* Anchor jumps: land below the sticky nav (+ context bar) so section padding stays visible */
 html { scroll-padding-top: 8px; }
 html:has(.lnav) { scroll-padding-top: 64px; }
+.cpart { margin-top: 14px; }
+.cpart h4 { margin: 0 0 8px; font-size: .95em; }
+.cpart .cval { font-weight: 400; opacity: .65; margin-left: 6px; }

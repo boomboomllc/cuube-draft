@@ -84,12 +84,16 @@
         const on = [...g.querySelectorAll(".on")].map((o) => o.dataset.label || o.dataset.val);
         state[g.dataset.group] = on.length ? on.join(", ") : "None";
       });
+      builder.querySelectorAll(".cpart").forEach((c) => {
+        c.querySelector(".cval").textContent = state[c.querySelector("[data-group]").dataset.group];
+      });
       const dl = document.getElementById("summary");
       dl.innerHTML = Object.entries({
-        Model: state.model, Use: state.use, Exterior: state.color, Roof: state.roof, Extras: state.extras,
+        Model: state.model, Use: state.use, Panels: state.panels, Beams: state.beams, Field: state.field,
+        Doors: state.doors, Trim: state.trim, Roof: state.roof, Accent: state.accent, Extras: state.extras,
       }).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
       document.getElementById("pv-label").textContent =
-        `${state.model} · ${state.use} · ${state.color} — live 3D preview coming`;
+        `${state.model} · ${state.use} · ${state.panels} panels — live 3D preview coming`;
       const on = builder.querySelector('[data-group="model"] .on');
       const pv = document.getElementById("pv-img");
       if (on && pv) pv.src = `assets/img/series-${on.dataset.val.split("x")[0]}.jpg`;
