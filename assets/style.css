@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap");
 /* CUUBE draft — layout-first styles */
 :root {
   --ink: #1d1d1f;
@@ -263,3 +264,110 @@ img.ph.tall { height: 400px; }
 .pv-label { position: absolute; left: 12px; bottom: 12px; right: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: 13px; padding: 8px 12px; border-radius: 12px; }
 
 .logo img { height: 30px; width: auto; display: block; }
+
+/* ==========================================================
+   CUUBE brand layer — civic, architectural, steel-built.
+   Archivo for headings, Public Sans (a US-government open font) for text,
+   squared corners, navy ink, a blueprint grid and the diamond marker.
+   ========================================================== */
+:root {
+  --ink: #0f1b2d;
+  --ink-2: #4a5668;
+  --bg-2: #f2f4f7;
+  --dark: #0c1728;
+  --line: #d9dee6;
+  --accent: #0065cc;
+  --accent-2: #e8f1fb;
+  --steel: #8a96a8;
+  --radius: 6px;
+  --font: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --display: "Archivo", "Public Sans", Arial, sans-serif;
+}
+body { line-height: 1.6; }
+h1, h2, h3, h4, .door h3, .feature h3, .next h3, blockquote, .stat b, .lnav .title { font-family: var(--display); }
+h1 { font-weight: 800; letter-spacing: -.025em; line-height: 1.02; }
+h2 { font-weight: 700; letter-spacing: -.02em; }
+h3 { font-weight: 700; letter-spacing: -.01em; }
+
+/* Eyebrows get the diamond marker */
+.eyebrow { font-family: var(--display); font-size: 13px; letter-spacing: .14em; font-weight: 700; display: inline-flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 8px; height: 8px; background: var(--accent); transform: rotate(45deg); flex: none; }
+.dark .eyebrow { color: #6fb1f5; }
+.dark .eyebrow::before { background: #6fb1f5; }
+
+/* Nav: solid, with a steel-blue top rule */
+.gnav { background: #fff; backdrop-filter: none; border-top: 3px solid var(--accent); border-bottom: 1px solid var(--line); }
+.gnav ul a { font-weight: 500; opacity: 1; color: var(--ink-2); }
+.gnav ul a:hover, .gnav ul a.on { color: var(--ink); }
+.gnav ul a.on { box-shadow: inset 0 -2px 0 var(--accent); padding-bottom: 15px; }
+.lnav { background: #fff; backdrop-filter: none; border-bottom: 1px solid var(--line); top: 55px; }
+.lnav a { font-weight: 500; }
+
+/* Buttons: squared, sturdy */
+.btn { border-radius: 4px; font-weight: 600; letter-spacing: .01em; padding: 12px 24px; }
+.btn:hover { filter: none; background: #0052a6; }
+.btn.ghost:hover { background: var(--accent-2); }
+.btn.sm { border-radius: 3px; }
+.link { font-weight: 600; font-size: 16px; }
+.link::after { content: " →"; transition: margin .2s; }
+a:hover .link::after, .link:hover::after { margin-left: 4px; }
+
+/* Sections */
+.alt { background-color: var(--bg-2); background-image: linear-gradient(rgba(15,27,45,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(15,27,45,.035) 1px, transparent 1px); background-size: 40px 40px; }
+.dark { background: var(--dark); }
+.dark .sub, .dark p { color: #a9b4c4; }
+
+/* Cards: white, ruled, a blue edge on hover */
+.card, .alt .card, section:not(.alt):not(.dark) .card { background: #fff; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(15,27,45,.04); }
+.dark .card { background: #13213a; border-color: #22324d; }
+a.card { position: relative; }
+a.card::before { content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 3px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .25s ease; border-radius: var(--radius) var(--radius) 0 0; }
+a.card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15,27,45,.08); border-color: #c4ccd8; }
+a.card:hover::before { transform: scaleX(1); }
+.card img.ph, .incl img { border-radius: 3px; }
+.tag, .badge { font-family: var(--display); letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+.badge { color: var(--accent); }
+
+/* Photos: slightly squarer, crisp */
+img.ph, .gallery img, .plan, .door, .next, .summary { border-radius: var(--radius); }
+.door img.ph { filter: none; }
+.door::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(12,23,40,0) 30%, rgba(12,23,40,.85)); }
+.door > *:not(.ph) { z-index: 1; }
+
+/* Pills, chips, sizes: squared tags */
+.pills a, .chip, .sizes a { border-radius: 4px; }
+.pills a { background: #fff; border: 1px solid var(--line); font-weight: 500; }
+.chip.on { background: var(--accent); border-color: var(--accent); }
+.sizes a { font-family: var(--display); letter-spacing: .02em; }
+.sizes a:hover { background: var(--accent-2); }
+
+/* Stats: solid blue numerals over a steel rule */
+.stat { border-top: 2px solid var(--ink); padding-top: 20px; }
+.stat b { background: none; color: var(--accent); -webkit-text-fill-color: var(--accent); font-weight: 800; }
+
+/* Feature rows, tables, timeline */
+.feature h3 { font-weight: 700; }
+.compare thead th { font-family: var(--display); border-bottom: 2px solid var(--ink); }
+.compare tbody tr:hover td { background: rgba(0,101,204,.03); }
+.step .dot { background: none; isolation: isolate; font-family: var(--display); }
+.step .dot::before { content: ""; position: absolute; inset: 6px; background: var(--accent); transform: rotate(45deg); border-radius: 3px; z-index: -1; }
+.ilist .ic { border-radius: 4px; }
+.opt, form.lead input, form.lead select, form.lead textarea { border-radius: 4px; }
+.opt { border-width: 1px; }
+.opt.on { box-shadow: inset 0 0 0 1px var(--accent); }
+
+/* Next-step card */
+.next { background: var(--ink); color: #fff; }
+.next:hover { background: #18294a; }
+.next small { color: #8fa0b8; text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 600; }
+.next .arrow { color: #6fb1f5; }
+
+/* Footer: deep navy */
+footer { background: var(--dark); color: #8fa0b8; }
+footer h5 { color: #fff; font-family: var(--display); letter-spacing: .08em; text-transform: uppercase; font-size: 11px; }
+footer a { color: #b6c2d3; }
+footer .cols { border-bottom-color: #22324d; }
+
+/* Draft bar */
+.draft-bar { background: #0c1728; color: #f5c84c; letter-spacing: .04em; }
+.door img.ph { padding: 0; background: #13213a; }
