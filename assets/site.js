@@ -106,6 +106,24 @@
       }));
       paintColors();
     }
+    // Collapse long option lists behind "See more"
+    builder.querySelectorAll("[data-collapse]").forEach((g) => {
+      const max = +g.dataset.collapse;
+      let n = 0;
+      const extra = [...g.children].filter((el) => (el.classList.contains("opt") && ++n > max) || n >= max && !el.classList.contains("opt"));
+      if (!extra.length) return;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "see-more";
+      g.after(btn);
+      const set = (open) => {
+        extra.forEach((el) => (el.hidden = !open));
+        btn.textContent = open ? "See less" : `See more (${extra.filter((el) => el.classList.contains("opt")).length})`;
+        btn.dataset.open = open ? "1" : "";
+      };
+      btn.addEventListener("click", () => set(!btn.dataset.open));
+      set(extra.some((el) => el.classList.contains("on")));
+    });
     function update() {
       builder.querySelectorAll("[data-group]").forEach((g) => {
         const on = [...g.querySelectorAll(".on")].map((o) => o.dataset.label || o.dataset.val);
