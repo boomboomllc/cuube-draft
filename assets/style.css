@@ -476,3 +476,7 @@ a.mission .link { display: inline-block; margin-top: 10px; color: #9fd2ff; }
 .quick.q4 .ph { width: 64px; height: 52px; }
 @media (max-width: 900px) { .quick.q4 { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px) { .quick.q4 { grid-template-columns: 1fr; } }
+
+/* Context bar action: outlined accent, so only the global CTA is a solid blue button */
+.lnav a.btn, .lnav a.btn:hover { background: transparent; box-shadow: none; transform: none; color: var(--accent); border: 1.5px solid var(--accent); padding: 5px 14px; font-weight: 600; }
+.lnav a.btn:hover { background: var(--accent-2); }
