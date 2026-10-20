@@ -487,3 +487,4 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 .cpart { margin-top: 14px; }
 .cpart h4 { margin: 0 0 8px; font-size: .95em; }
 .cpart .cval { font-weight: 400; opacity: .65; margin-left: 6px; }
+.ctab .cdot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; box-shadow: 0 0 0 1px var(--line); }

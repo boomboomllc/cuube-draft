@@ -79,14 +79,39 @@
       });
       if (!multi && !group.querySelector(".on")) items[0].classList.add("on");
     });
+    // Colors: one palette, applied to whichever component tab is active
+    const pal = builder.querySelector(".cpal");
+    const tabs = [...builder.querySelectorAll(".ctab")];
+    const colors = {};
+    let part = tabs[0] && tabs[0].dataset.part;
+    function paintColors() {
+      tabs.forEach((t) => {
+        const sw = pal.querySelector(`[data-val="${colors[t.dataset.part]}"]`);
+        t.classList.toggle("on", t.dataset.part === part);
+        t.querySelector(".cdot").style.background = sw.style.background;
+      });
+      pal.querySelectorAll(".sw").forEach((s) => s.classList.toggle("on", s.dataset.val === colors[part]));
+      const label = tabs.find((t) => t.dataset.part === part).textContent;
+      builder.querySelector(".cnow").innerHTML = `<b>${label}:</b> ${colors[part]}`;
+    }
+    if (pal) {
+      tabs.forEach((t) => {
+        const k = t.dataset.part;
+        const preset = params.get(k);
+        colors[k] = pal.querySelector(`[data-val="${preset}"]`) ? preset : pal.querySelector(".sw").dataset.val;
+        t.addEventListener("click", () => { part = k; paintColors(); });
+      });
+      pal.querySelectorAll(".sw").forEach((s) => s.addEventListener("click", () => {
+        colors[part] = s.dataset.val; paintColors(); update();
+      }));
+      paintColors();
+    }
     function update() {
       builder.querySelectorAll("[data-group]").forEach((g) => {
         const on = [...g.querySelectorAll(".on")].map((o) => o.dataset.label || o.dataset.val);
         state[g.dataset.group] = on.length ? on.join(", ") : "None";
       });
-      builder.querySelectorAll(".cpart").forEach((c) => {
-        c.querySelector(".cval").textContent = state[c.querySelector("[data-group]").dataset.group];
-      });
+      Object.assign(state, colors);
       const dl = document.getElementById("summary");
       dl.innerHTML = Object.entries({
         Model: state.model, Use: state.use, Panels: state.panels, Beams: state.beams, Field: state.field,
