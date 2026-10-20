@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap");
 /* CUUBE draft — layout-first styles */
 :root {
   --ink: #1d1d1f;
@@ -371,3 +371,79 @@ footer .cols { border-bottom-color: #22324d; }
 /* Draft bar */
 .draft-bar { background: #0c1728; color: #f5c84c; letter-spacing: .04em; }
 .door img.ph { padding: 0; background: #13213a; }
+
+/* ==========================================================
+   Modern layer — same brand ideas, more energy.
+   Softer corners, blue light, gradient type, motion on hover.
+   ========================================================== */
+:root {
+  --display: "Plus Jakarta Sans", "Public Sans", Arial, sans-serif;
+  --radius: 16px;
+  --glow: 0 18px 40px -12px rgba(0,101,204,.35);
+}
+h1 { font-weight: 800; letter-spacing: -.035em; }
+h2 { font-weight: 800; letter-spacing: -.03em; }
+
+/* Hero: soft blue light behind the first section, gradient on the second line */
+body > section:first-of-type { position: relative; overflow: hidden; }
+body > section:first-of-type::before { content: ""; position: absolute; inset: -20% -10% auto; height: 560px; background: radial-gradient(ellipse at 30% 40%, rgba(0,101,204,.16), transparent 60%), radial-gradient(ellipse at 75% 20%, rgba(56,189,248,.14), transparent 55%); pointer-events: none; z-index: 0; }
+body > section:first-of-type > .wrap { position: relative; z-index: 1; }
+h1 br + *, h1 { background: linear-gradient(100deg, var(--ink) 40%, #0065cc 75%, #22a6f0); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .06em; }
+
+/* Nav: frosted again, thin blue rule kept */
+.gnav, .lnav { background: rgba(255,255,255,.78); backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px); }
+.gnav { border-top-width: 2px; }
+
+/* Blueprint grid fades out at the edges instead of filling the block */
+.alt { position: relative; background-image: none; }
+.alt::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,101,204,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,101,204,.06) 1px, transparent 1px); background-size: 44px 44px; -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 10%, transparent 70%); mask-image: radial-gradient(ellipse at 50% 30%, #000 10%, transparent 70%); pointer-events: none; }
+.alt > .wrap { position: relative; }
+
+/* Dark sections: navy with a blue glow */
+.dark { background: radial-gradient(ellipse at 20% 0%, rgba(0,101,204,.35), transparent 55%), radial-gradient(ellipse at 90% 100%, rgba(34,166,240,.18), transparent 50%), var(--dark); }
+
+/* Buttons: gradient fill, lift and glow */
+.btn { border-radius: 10px; background: linear-gradient(135deg, #0a74e0, #0057b8); box-shadow: 0 6px 16px -6px rgba(0,101,204,.55); transition: transform .2s ease, box-shadow .2s ease; }
+.btn:hover { background: linear-gradient(135deg, #1a82ec, #0062cc); transform: translateY(-1px); box-shadow: var(--glow); }
+.btn.ghost { background: rgba(255,255,255,.6); box-shadow: none; }
+.btn.sm { border-radius: 8px; }
+
+/* Cards: rounder, photos zoom gently on hover, blue-tinted lift */
+.card { border-radius: var(--radius); overflow: hidden; transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+.card img.ph, .incl img { border-radius: 10px; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+a.card:hover { transform: translateY(-4px); box-shadow: var(--glow); border-color: rgba(0,101,204,.35); }
+a.card:hover img.ph { transform: scale(1.04); }
+a.card::before { height: 3px; background: linear-gradient(90deg, #0065cc, #22a6f0); }
+.gallery img, img.ph.tall, img.ph.hero { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.gallery { overflow: hidden; }
+.gallery img:hover { transform: scale(1.03); }
+img.ph.hero { box-shadow: 0 30px 60px -30px rgba(15,27,45,.45); }
+
+/* Tags, chips, sizes: soft rounded */
+.pills a, .chip, .sizes a { border-radius: 10px; transition: all .2s ease; }
+.sizes a:hover, .pills a:hover { transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(0,101,204,.5); }
+
+/* Stats: gradient numerals, lighter rule */
+.stat { border-top: 1px solid var(--line); }
+.stat b { background: linear-gradient(120deg, #0065cc, #22a6f0); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+
+/* Eyebrow diamond gets a soft glow */
+.eyebrow::before { background: linear-gradient(135deg, #0065cc, #22a6f0); box-shadow: 0 0 0 4px rgba(0,101,204,.12); border-radius: 2px; }
+
+/* Next card + footer keep navy, with glow */
+.next { background: radial-gradient(ellipse at 0% 0%, rgba(0,101,204,.45), transparent 60%), var(--ink); transition: transform .25s ease, box-shadow .25s ease; }
+.next:hover { background: radial-gradient(ellipse at 0% 0%, rgba(0,101,204,.6), transparent 60%), var(--ink); transform: translateY(-2px); box-shadow: var(--glow); }
+.next .arrow { transition: transform .25s ease; }
+.next:hover .arrow { transform: translateX(6px); }
+.opt, form.lead input, form.lead select, form.lead textarea { border-radius: 10px; }
+img.ph, .gallery img, .plan, .door, .summary { border-radius: var(--radius); }
+
+/* Smoother reveal */
+.reveal { transform: translateY(28px) scale(.985); filter: blur(4px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1), filter .8s ease; }
+.reveal.in { filter: none; }
+.grid > .reveal:nth-child(2) { transition-delay: .08s; }
+.grid > .reveal:nth-child(3) { transition-delay: .16s; }
+.grid > .reveal:nth-child(4) { transition-delay: .24s; }
+.grid > .reveal:nth-child(5) { transition-delay: .32s; }
+@media (prefers-reduced-motion: reduce) { .reveal { transition: none; transform: none; filter: none; opacity: 1; } * { scroll-behavior: auto; } }
+.dark .ilist .ic { background: linear-gradient(135deg, rgba(0,101,204,.35), rgba(34,166,240,.2)); color: #9fd2ff; border: 1px solid rgba(111,177,245,.3); border-radius: 10px; }
