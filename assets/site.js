@@ -132,11 +132,11 @@
       Object.assign(state, colors);
       const dl = document.getElementById("summary");
       dl.innerHTML = Object.entries({
-        Model: state.model, Use: state.use, Panels: state.panels, Beams: state.beams, Columns: state.columns, Field: state.field,
-        Doors: state.doors, Trim: state.trim, Roof: state.roof, Accent: state.accent, Extras: state.extras,
+        Model: state.model, Use: state.use, "Field panels": state.field, "Accent panels": state.accent, Columns: state.columns,
+        Beams: state.beams, Eaves: state.eaves, Roof: state.roof, Trim: state.trim, Extras: state.extras,
       }).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
       document.getElementById("pv-label").textContent =
-        `${state.model} · ${state.use} · ${state.panels} panels — live 3D preview coming`;
+        `${state.model} · ${state.use} · ${state.field} field panels — live 3D preview coming`;
       const on = builder.querySelector('[data-group="model"] .on');
       const pv = document.getElementById("pv-img");
       if (on && pv) pv.src = `assets/img/series-${on.dataset.val.split("x")[0]}.jpg`;
