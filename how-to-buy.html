@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to Buy CUUBE</title>
+<meta name="description" content="How public agencies buy CUUBE: cooperative contracts, design-build, funding and DSA approvals.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CUUBE">
+<meta property="og:title" content="How to Buy CUUBE">
+<meta property="og:description" content="How public agencies buy CUUBE: cooperative contracts, design-build, funding and DSA approvals.">
+<meta property="og:url" content="https://boomboomllc.github.io/cuube-draft/how-to-buy.html">
+<meta property="og:image" content="https://boomboomllc.github.io/cuube-draft/assets/img/ext-campus.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -30,12 +38,12 @@
   <div class="wrap">
     <h2>Six steps. No surprises.</h2>
     <div class="timeline">
-      <div class="step reveal"><div class="dot">1</div><h4>Consult</h4><p>Needs and site review</p><small>[Week 0]</small></div>
-      <div class="step reveal"><div class="dot">2</div><h4>Design</h4><p>Floor plan and finishes</p><small>[Wk X]</small></div>
-      <div class="step reveal"><div class="dot">3</div><h4>Approvals</h4><p>DSA / permits</p><small>[Wk X]</small></div>
-      <div class="step reveal"><div class="dot">4</div><h4>Build</h4><p>Off-site manufacture</p><small>[Wk X]</small></div>
-      <div class="step reveal"><div class="dot">5</div><h4>Install</h4><p>On-site assembly</p><small>[Wk X]</small></div>
-      <div class="step reveal"><div class="dot">6</div><h4>Move in</h4><p>Ribbon cutting</p><small>[Wk X]</small></div>
+      <div class="step reveal"><div class="dot">1</div><h3 class="h4">Consult</h3><p>Needs and site review</p><small>[Week 0]</small></div>
+      <div class="step reveal"><div class="dot">2</div><h3 class="h4">Design</h3><p>Floor plan and finishes</p><small>[Wk X]</small></div>
+      <div class="step reveal"><div class="dot">3</div><h3 class="h4">Approvals</h3><p>DSA / permits</p><small>[Wk X]</small></div>
+      <div class="step reveal"><div class="dot">4</div><h3 class="h4">Build</h3><p>Off-site manufacture</p><small>[Wk X]</small></div>
+      <div class="step reveal"><div class="dot">5</div><h3 class="h4">Install</h3><p>On-site assembly</p><small>[Wk X]</small></div>
+      <div class="step reveal"><div class="dot">6</div><h3 class="h4">Move in</h3><p>Ribbon cutting</p><small>[Wk X]</small></div>
     </div>
   </div>
 </section>
@@ -56,9 +64,9 @@
   <div class="wrap">
     <div class="center"><h2>Ways to pay for it.</h2></div>
     <div class="grid g3">
-      <div class="card reveal"><div class="ph">ICON</div><h3>Cooperative contracts</h3><p><span class="tbd">[Contract name/number]</span> — skip a lengthy bid.</p></div>
-      <div class="card reveal"><div class="ph">ICON</div><h3>Bonds & facilities funds</h3><p>Predictable pricing for bond programs.</p></div>
-      <div class="card reveal"><div class="ph">ICON</div><h3>State & federal grants</h3><p><span class="tbd">[UPK/TK, FDK, park grants]</span></p></div>
+      <div class="card reveal"><div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></div><h3>Cooperative contracts</h3><p><span class="tbd">[Contract name/number]</span> — skip a lengthy bid.</p></div>
+      <div class="card reveal"><div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg></div><h3>Bonds & facilities funds</h3><p>Predictable pricing for bond programs.</p></div>
+      <div class="card reveal"><div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M16 7H10a2.5 2.5 0 000 5h4a2.5 2.5 0 010 5H8"/></svg></div><h3>State & federal grants</h3><p><span class="tbd">[UPK/TK, FDK, park grants]</span></p></div>
     </div>
     <div class="cta-row"><a class="btn ghost" href="#">Download board presentation kit (PDF)</a></div>
   </div>
@@ -81,11 +89,12 @@
     <h2>Let's talk.</h2>
     <p class="sub">714.462.2955 · CUUBE@tlschoice.com</p>
     <form class="lead" onsubmit="event.preventDefault();alert('Draft only — form not connected.')">
-      <label>Name<input></label>
-      <label>Organization<input></label>
-      <label>Email<input type="email"></label>
-      <label>I'm with a…<select><option>School district</option><option>City</option><option>County</option><option>Federal agency</option><option>Other</option></select></label>
-      <label class="full">What are you looking to build?<textarea></textarea></label>
+      <label>Name<input name="name" autocomplete="name" required></label>
+      <label>Organization<input name="organization" autocomplete="organization" required></label>
+      <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <label>I'm with a…<select name="sector"><option>School district</option><option>City</option><option>County</option><option>Federal agency</option><option>Other</option></select></label>
+      <label class="full">What are you looking to build?<textarea name="message"></textarea></label>
+      <p class="full form-note">All fields except the message are required.</p>
       <div class="full"><button class="btn">Send</button></div>
     </form>
   </div>

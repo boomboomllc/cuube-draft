@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Design Your CUUBE</title>
+<meta name="description" content="Design your CUUBE building in about 2 minutes and get a tailored quote.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CUUBE">
+<meta property="og:title" content="Design Your CUUBE">
+<meta property="og:description" content="Design your CUUBE building in about 2 minutes and get a tailored quote.">
+<meta property="og:url" content="https://boomboomllc.github.io/cuube-draft/design.html">
+<meta property="og:image" content="https://boomboomllc.github.io/cuube-draft/assets/img/ext-render.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="stylesheet" href="assets/style.css">
 </head>
@@ -12,7 +20,7 @@
   <div class="wrap">
     <div class="center">
       <p class="eyebrow">Design Your Building</p>
-      <h2>Make it yours in five steps.</h2>
+      <h1 class="h2">Make it yours in five steps.</h1>
       <p class="sub">No commitment. We'll send a tailored quote and floor plan.</p>
     </div>
 
@@ -26,25 +34,25 @@
         <div class="bstep">
           <h3><span class="n">1</span>Choose a series &amp; size</h3><p>Size sets what fits inside. <a href="models.html#compare">Compare series</a></p>
           <div class="opts" data-group="model" data-collapse="7">
-            <h4 class="opt-head">32 Series</h4>
+            <h3 class="opt-head">32 Series</h3>
             <button class="opt" data-val="32x72" data-label="32 Series · 32×72">32×72<small>32 Series</small></button>
             <button class="opt" data-val="32x104" data-label="32 Series · 32×104">32×104<small>32 Series</small></button>
             <button class="opt" data-val="32x136" data-label="32 Series · 32×136">32×136<small>32 Series</small></button>
             <button class="opt" data-val="32x168" data-label="32 Series · 32×168">32×168<small>32 Series</small></button>
-            <h4 class="opt-head">36 Series</h4>
+            <h3 class="opt-head">36 Series</h3>
             <button class="opt" data-val="36x86" data-label="36 Series · 36×86">36×86<small>36 Series</small></button>
             <button class="opt" data-val="36x118" data-label="36 Series · 36×118">36×118<small>36 Series</small></button>
             <button class="opt" data-val="36x152" data-label="36 Series · 36×152">36×152<small>36 Series</small></button>
-            <h4 class="opt-head">60 Series</h4>
+            <h3 class="opt-head">60 Series</h3>
             <button class="opt" data-val="60x96" data-label="60 Series · 60×96">60×96<small>60 Series</small></button>
             <button class="opt" data-val="60x128" data-label="60 Series · 60×128">60×128<small>60 Series</small></button>
             <button class="opt" data-val="60x208" data-label="60 Series · 60×208">60×208<small>60 Series</small></button>
-            <h4 class="opt-head">100 Series</h4>
+            <h3 class="opt-head">100 Series</h3>
             <button class="opt" data-val="100x70" data-label="100 Series · 100×70">100×70<small>100 Series</small></button>
             <button class="opt" data-val="100x90" data-label="100 Series · 100×90">100×90<small>100 Series</small></button>
             <button class="opt" data-val="100x100" data-label="100 Series · 100×100">100×100<small>100 Series</small></button>
             <button class="opt" data-val="100x120" data-label="100 Series · 100×120">100×120<small>100 Series</small></button>
-            <h4 class="opt-head">200 Series</h4>
+            <h3 class="opt-head">200 Series</h3>
             <button class="opt" data-val="200x45" data-label="200 Series · 200×45">200×45<small>200 Series</small></button>
           </div>
         </div>
@@ -62,7 +70,7 @@
             <button class="opt" data-val="clinic" data-label="Clinic / Medical">Clinic / Medical</button>
             <button class="opt" data-val="other" data-label="Other">Tell us<small>Something else</small></button>
           </div>
-          <input class="use-other" type="text" placeholder="What will you use it for?" hidden>
+          <input class="use-other" type="text" aria-label="What will you use it for?" placeholder="What will you use it for?" hidden>
         </div>
 
         <div class="bstep">
@@ -109,11 +117,11 @@
         <div class="bstep">
           <h3><span class="n">5</span>Get your quote</h3><p>A specialist will reply within <span class="tbd">[X business days]</span>.</p>
           <form class="lead" onsubmit="event.preventDefault();alert('Draft only — form not connected.')" style="margin-top:0">
-            <label>Name<input></label>
-            <label>Organization<input placeholder="District, city, county, or agency"></label>
-            <label>Email<input type="email"></label>
-            <label>Phone<input></label>
-            <label class="full">Your selections<textarea id="msg" readonly></textarea></label>
+            <label>Name<input name="name" autocomplete="name" required></label>
+            <label>Organization<input name="organization" autocomplete="organization" required placeholder="District, city, county, or agency"></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+            <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
+            <label class="full">Your selections<textarea id="msg" name="selections" readonly></textarea></label>
             <div class="full"><button class="btn">Request my quote</button></div>
           </form>
         </div>

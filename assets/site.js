@@ -26,19 +26,19 @@
   const footer = `
     <footer><div class="wrap">
       <div class="cols c5">
-        <div><h5>Who it's for</h5><ul>
+        <div><h2 class="fh">Who it's for</h2><ul>
           <li><a href="schools.html">K–12 Schools</a></li><li><a href="schools.html#upk">UPK / TK</a></li>
           <li><a href="cities.html">Cities & Counties</a></li><li><a href="cities.html#parks">Parks & Rec</a></li><li><a href="federal.html">Federal & Defense</a></li></ul></div>
-        <div><h5>The building</h5><ul>
+        <div><h2 class="fh">The building</h2><ul>
           <li><a href="why-cuube.html">Why CUUBE</a></li><li><a href="models.html">Models</a></li>
           <li><a href="models.html#compare">Compare models</a></li><li><a href="design.html">Design your building</a></li></ul></div>
-        <div><h5>Proof</h5><ul>
+        <div><h2 class="fh">Proof</h2><ul>
           <li><a href="projects.html">Projects</a></li><li><a href="projects.html#map">Project map</a></li>
           <li><a href="#">Virtual tours</a></li></ul></div>
-        <div><h5>Get started</h5><ul>
+        <div><h2 class="fh">Get started</h2><ul>
           <li><a href="how-to-buy.html">How to buy</a></li><li><a href="how-to-buy.html#funding">Funding</a></li>
           <li><a href="how-to-buy.html#purchasing">Purchasing options</a></li><li><a href="how-to-buy.html#contact">Talk to a specialist</a></li></ul></div>
-        <div><h5>Contact</h5><ul>
+        <div><h2 class="fh">Contact</h2><ul>
           <li><a href="tel:+17144622955">714.462.2955</a></li><li><a href="mailto:CUUBE@tlschoice.com">CUUBE@tlschoice.com</a></li>
           <li>[Street address]<br>[City], CA [ZIP]</li></ul></div>
       </div>
@@ -48,8 +48,16 @@
 
   document.body.insertAdjacentHTML("afterbegin", header);
   document.body.insertAdjacentHTML("beforeend", footer);
-  const first = document.querySelector("body > section");
-  if (first && !document.getElementById("main")) { first.id ||= "main"; if (first.id !== "main") first.insertAdjacentHTML("beforebegin", '<span id="main"></span>'); }
+  // Landmarks: banner header, one <main> around the page content
+  const head = document.createElement("header");
+  head.append(...document.querySelectorAll("body > .skip, body > .draft-bar, body > .gnav"));
+  document.body.prepend(head);
+  const main = document.createElement("main");
+  main.id = "main"; main.tabIndex = -1;
+  main.append(...document.querySelectorAll("body > .lnav, body > section"));
+  head.after(main);
+  // Moving the content resets the browser's jump to #anchor, so re-apply it
+  if (location.hash) requestAnimationFrame(() => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView());
 
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const conn = navigator.connection || {};
