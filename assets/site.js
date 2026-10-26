@@ -12,6 +12,7 @@
   ];
 
   const header = `
+    <a class="skip" href="#main">Skip to content</a>
     <div class="draft-bar">Draft layout · placeholder content and images · not for distribution</div>
     <nav class="gnav"><div class="wrap">
       <a class="logo" href="index.html"><img src="assets/img/cuube-logo.png" alt="CUUBE"></a>
@@ -19,12 +20,12 @@
         ${links.map(([h, t, k]) => `<li><a href="${h}" class="${k === page ? "on" : ""}">${t}</a></li>`).join("")}
       </ul>
       <a class="btn sm" href="design.html">Design Your Building</a>
-      <button class="menu-btn" aria-label="Menu" onclick="document.getElementById('gmenu').classList.toggle('open')">☰</button>
+      <button class="menu-btn" aria-label="Menu" aria-controls="gmenu" aria-expanded="false" onclick="this.setAttribute('aria-expanded', document.getElementById('gmenu').classList.toggle('open'))">☰</button>
     </div></nav>`;
 
   const footer = `
     <footer><div class="wrap">
-      <div class="cols">
+      <div class="cols c5">
         <div><h5>Who it's for</h5><ul>
           <li><a href="schools.html">K–12 Schools</a></li><li><a href="schools.html#upk">UPK / TK</a></li>
           <li><a href="cities.html">Cities & Counties</a></li><li><a href="cities.html#parks">Parks & Rec</a></li><li><a href="federal.html">Federal & Defense</a></li></ul></div>
@@ -36,19 +37,163 @@
           <li><a href="#">Virtual tours</a></li></ul></div>
         <div><h5>Get started</h5><ul>
           <li><a href="how-to-buy.html">How to buy</a></li><li><a href="how-to-buy.html#funding">Funding</a></li>
-          <li><a href="how-to-buy.html#contact">Talk to a specialist</a></li><li>714.462.2955</li></ul></div>
+          <li><a href="how-to-buy.html#purchasing">Purchasing options</a></li><li><a href="how-to-buy.html#contact">Talk to a specialist</a></li></ul></div>
+        <div><h5>Contact</h5><ul>
+          <li><a href="tel:+17144622955">714.462.2955</a></li><li><a href="mailto:CUUBE@tlschoice.com">CUUBE@tlschoice.com</a></li>
+          <li>[Street address]<br>[City], CA [ZIP]</li></ul></div>
       </div>
-      <p>© CUUBE · TLS Choice · KYA Group · Draft site — content is placeholder.</p>
+      <p class="legal">CUUBE is offered by TLS Choice and built by KYA Group <span class="tbd">[describe KYA relationship]</span>. CA Contractor License (CSLB) #<span class="tbd">[number]</span> · DSA pre-approved plans <span class="tbd">[PC #]</span> · DIR #<span class="tbd">[number]</span></p>
+      <p class="legal">© 2026 CUUBE · <a href="privacy.html">Privacy policy</a> · <a href="accessibility.html">Accessibility statement</a> · Draft site, content is placeholder.</p>
     </div></footer>`;
 
   document.body.insertAdjacentHTML("afterbegin", header);
   document.body.insertAdjacentHTML("beforeend", footer);
+  const first = document.querySelector("body > section");
+  if (first && !document.getElementById("main")) { first.id ||= "main"; if (first.id !== "main") first.insertAdjacentHTML("beforebegin", '<span id="main"></span>'); }
+
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const conn = navigator.connection || {};
+  const slow = conn.saveData || /(^|-)2g|3g/.test(conn.effectiveType || "");
+
+  // Open a FAQ item when linked to directly (e.g. how-to-buy.html#dsa)
+  const openHash = () => { const d = location.hash && document.querySelector(`details${location.hash}`); if (d) d.open = true; };
+  openHash(); addEventListener("hashchange", openHash);
+
+  // Project cards: photos ease in as they scroll into view
+  document.querySelectorAll('a.card[href^="project.html"]').forEach((c) => c.classList.add("proj"));
 
   // Scroll reveal
   const io = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }), { threshold: 0.12 });
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  // Stats count up once, only when the value is a real number (placeholders like "[X]" stay as-is)
+  const countIO = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    countIO.unobserve(e.target);
+    const el = e.target, m = el.textContent.match(/^(\d[\d,]*)(.*)$/);
+    if (!m || reduced) return;
+    const end = +m[1].replace(/,/g, ""), rest = m[2], t0 = performance.now();
+    const tick = (t) => {
+      const k = Math.min((t - t0) / 1400, 1), v = Math.round(end * (1 - Math.pow(1 - k, 3)));
+      el.textContent = v.toLocaleString() + rest;
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }), { threshold: 0.6 });
+  document.querySelectorAll("[data-count]").forEach((el) => countIO.observe(el));
+
+  // Kit of parts: the building assembles layer by layer as you scroll.
+  // Reduced motion, small screens and slow connections get the finished building, no scroll scrubbing.
+  const asm = document.querySelector("[data-asm]");
+  if (asm) {
+    const lazy = new IntersectionObserver((es) => {
+      if (!es[0].isIntersecting) return;
+      lazy.disconnect();
+      initAssembly(asm, !reduced && !slow && matchMedia("(min-width: 761px)").matches);
+    }, { rootMargin: "600px 0px" });
+    lazy.observe(asm);
+  }
+
+  function initAssembly(root, live) {
+    const C = Math.cos(Math.PI / 6), S = 24, H = 3.4, L = 12, D = 7;
+    const P = (x, y, z) => [(x - y) * C * S, (x + y) * 0.5 * S - z * S];
+    let minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
+    const poly = (pts, fill, op) => pts.map((p) => P(...p)).map(([x, y]) => {
+      minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(" ").replace(/^/, `<polygon fill="${fill}"${op ? ` fill-opacity="${op}"` : ""} points="`) + '"/>';
+    // Only the three faces the viewer can see: top, +x side, +y side
+    const box = ([a, b, c, d, e, f], [top, rt, ft], op) => ({
+      k: d + e + c * 0.1,
+      svg: poly([[a, b, f], [d, b, f], [d, e, f], [a, e, f]], top, op) +
+        poly([[d, b, c], [d, e, c], [d, e, f], [d, b, f]], rt, op) +
+        poly([[a, e, c], [d, e, c], [d, e, f], [a, e, f]], ft, op),
+    });
+    const col = {
+      slab: ["#d3d7dd", "#b4bac4", "#a0a7b2"], floor: ["#efe6d6", "#d9cdb7", "#c8bba3"], part: ["#fafbfc", "#e3e7ec", "#d3d9e1"],
+      steel: ["#3d86d6", "#0065cc", "#004e9e"], panel: ["#f3f5f8", "#dfe4eb", "#cbd2dc"], glass: ["#a9d1f5", "#6fb1f5", "#4f97e0"],
+      door: ["#4a6789", "#34506f", "#2a425d"], roof: ["#7d8b9e", "#5d6b7e", "#4b586b"], unit: ["#eef0f3", "#cfd4db", "#b9c0ca"],
+    };
+    const layers = [[], [], [], [], [], []];
+    // 1 Foundation
+    layers[0].push(box([-0.3, -0.3, -0.5, L + 0.3, D + 0.3, 0], col.slab));
+    // 2 Floor & interior
+    layers[1].push(box([0, 0, 0, L, D, 0.08], col.floor));
+    [4, 8].forEach((x) => layers[1].push(box([x, 0.2, 0.08, x + 0.14, D - 0.2, 2.7], col.part)));
+    // 3 Steel frame
+    [0, 4, 8, L].forEach((x) => [0, D].forEach((y) => layers[2].push(box([x - 0.13, y - 0.13, 0, x + 0.13, y + 0.13, H], col.steel))));
+    [0, D].forEach((y) => layers[2].push(box([0, y - 0.11, H - 0.32, L, y + 0.11, H], col.steel)));
+    [0, 4, 8, L].forEach((x) => layers[2].push(box([x - 0.11, 0, H - 0.32, x + 0.11, D, H], col.steel)));
+    // 4 Wall panels: solid far walls, near walls framed around window and door openings
+    const t = 0.14, wins = [[1, 3.2], [5, 7.2], [9, 11.2]], sill = 1, head = 2.5;
+    layers[3].push(box([0, -t, 0, L, 0, H], col.panel), box([-t, 0, 0, 0, D, H], col.panel));
+    let x0 = 0;
+    wins.forEach(([a, b]) => {
+      layers[3].push(box([x0, D, 0, a, D + t, H], col.panel), box([a, D, 0, b, D + t, sill], col.panel), box([a, D, head, b, D + t, H], col.panel));
+      x0 = b;
+    });
+    layers[3].push(box([x0, D, 0, L, D + t, H], col.panel));
+    const sideW = (y0, y1, z0, z1) => box([L, y0, z0, L + t, y1, z1], col.panel);
+    layers[3].push(sideW(0, 2.2, 0, H), sideW(2.2, 4, 2.4, H), sideW(4, 5, 0, H), sideW(5, 6.4, 0, sill), sideW(5, 6.4, head, H), sideW(6.4, D, 0, H));
+    // 5 Glazing & doors
+    wins.forEach(([a, b]) => layers[4].push(box([a, D + 0.04, sill, b, D + 0.08, head], col.glass, 0.85)));
+    layers[4].push(box([L + 0.04, 2.2, 0, L + 0.08, 4, 2.4], col.door), box([L + 0.04, 5, sill, L + 0.08, 6.4, head], col.glass, 0.85));
+    // 6 Roof, skylights and HVAC
+    layers[5].push(box([-0.45, -0.45, H, L + 0.45, D + 0.45, H + 0.3], col.roof));
+    [2, 6].forEach((x) => layers[5].push(box([x, 3, H + 0.3, x + 1, 4, H + 0.42], col.glass)));
+    layers[5].push(box([9, 2, H + 0.3, 10.6, 3.6, H + 1.1], col.unit));
+
+    const LIFT = 150, GAP = 48;
+    const groups = layers.map((l, i) => `<g class="asm-layer" data-i="${i}">${l.sort((a, b) => a.k - b.k).map((b) => b.svg).join("")}</g>`).join("");
+    const pad = 16, top = minY - pad - GAP * 5;
+    root.querySelector(".asm-svg").innerHTML =
+      `<svg viewBox="${(minX - pad).toFixed(0)} ${top.toFixed(0)} ${(maxX - minX + pad * 2).toFixed(0)} ${(maxY - top + pad).toFixed(0)}" aria-hidden="true" stroke="rgba(15,27,45,.22)" stroke-width=".6" stroke-linejoin="round">${groups}</svg>`;
+
+    const els = [...root.querySelectorAll(".asm-layer")], steps = [...root.querySelectorAll(".asm-steps li")];
+    const bar = root.querySelector(".asm-bar i"), btn = root.querySelector(".asm-toggle");
+    const track = root.querySelector(".asm-track"), stage = root.querySelector(".asm-stage");
+    let exploded = false, progress = live ? 0 : 6;
+
+    function paint() {
+      els.forEach((g, i) => {
+        const k = Math.max(0, Math.min(1, progress - i)), e = 1 - Math.pow(1 - k, 3);
+        g.style.transform = `translateY(${(-(1 - e) * LIFT - (exploded ? i * GAP : 0)).toFixed(1)}px)`;
+        g.style.opacity = e.toFixed(3);
+      });
+      const cur = Math.min(5, Math.floor(progress));
+      steps.forEach((li, i) => { li.classList.toggle("done", progress >= i + 1); li.classList.toggle("cur", live && i === cur && progress < 6); });
+      bar.style.width = `${(progress / 6) * 100}%`;
+    }
+    btn.addEventListener("click", () => {
+      exploded = !exploded;
+      btn.setAttribute("aria-pressed", exploded);
+      btn.textContent = exploded ? "Assembled view" : "Exploded view";
+      root.classList.add("easing"); paint();
+      setTimeout(() => root.classList.remove("easing"), 600);
+    });
+
+    if (live) {
+      root.classList.add("live");
+      const onScroll = () => {
+        const r = track.getBoundingClientRect(), span = track.offsetHeight - stage.offsetHeight;
+        // Assemble over the first 85% of the scroll, then hold the finished building
+        progress = Math.max(0, Math.min(6, (-r.top / span / 0.85) * 6));
+        paint();
+      };
+      let raf = 0;
+      addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; onScroll(); }); }, { passive: true });
+      addEventListener("resize", onScroll);
+      steps.forEach((li, i) => {
+        li.tabIndex = 0;
+        const go = () => scrollTo({ top: scrollY + track.getBoundingClientRect().top + (track.offsetHeight - stage.offsetHeight) * 0.85 * (i + 1) / 6 + 2, behavior: "smooth" });
+        li.addEventListener("click", go);
+        li.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); go(); } });
+      });
+      onScroll();
+    } else paint();
+  }
 
   // Project filter
   document.querySelectorAll("[data-filter]").forEach((chip) => chip.addEventListener("click", () => {

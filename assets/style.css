@@ -496,3 +496,74 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 .opts[data-group="model"] .opt { padding: 8px 10px; font-size: 14px; }
 .opts[data-group="model"] .opt small { font-size: 11px; margin-top: 0; }
 .use-other { margin-top: 10px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 15px; }
+
+/* ---- Feedback round: DSA line, resilience, purchasing, motion ---- */
+.skip { position: absolute; left: 12px; top: -48px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; }
+.skip:focus { top: 12px; }
+:focus-visible { outline: 3px solid #4a9be8; outline-offset: 2px; }
+
+.dsa-line { margin-top: 22px; }
+.dsa-line a { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px 16px; color: var(--ink); font-size: 15px; text-align: left; }
+.dsa-line a:hover { text-decoration: none; border-color: var(--accent); }
+.dsa-badge { font-family: var(--display); font-weight: 800; font-size: 12px; letter-spacing: .08em; color: #fff; background: var(--accent); border-radius: 6px; padding: 3px 8px; }
+.dsa-line .link { font-size: 15px; }
+
+#resilience .card h3 { font-size: 22px; }
+.resil-fund { margin: 32px auto 0; max-width: 860px; text-align: center; color: var(--ink-2); font-size: 17px; }
+.resil-fund b { color: var(--ink); }
+.resil-fund .link { white-space: nowrap; margin-left: 4px; }
+
+.buy-strip { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1fr; gap: 28px; align-items: start; }
+.buy-strip h3 { font-size: 26px; margin-bottom: 8px; }
+.buy-strip > div:not(:first-child) { border-top: 2px solid var(--accent); padding-top: 14px; }
+.buy-strip b { display: block; font-family: var(--display); font-size: 17px; margin-bottom: 4px; }
+.buy-strip span { color: var(--ink-2); font-size: 15px; }
+@media (max-width: 900px) { .buy-strip { grid-template-columns: 1fr 1fr; } .buy-strip > div:first-child { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .buy-strip { grid-template-columns: 1fr; } }
+
+footer .cols.c5 { grid-template-columns: repeat(5, 1fr); }
+footer .legal { margin-top: 8px; }
+footer .tbd { background: rgba(245,200,76,.18); color: #f5c84c; }
+@media (max-width: 900px) { footer .cols.c5 { grid-template-columns: 1fr 1fr; } }
+
+/* Kit-of-parts assembly */
+.asm { margin-top: 48px; }
+.asm-stage { display: grid; grid-template-columns: 300px 1fr; gap: 40px; align-items: center; }
+.asm-steps { list-style: none; counter-reset: s; display: grid; gap: 6px; }
+.asm-steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; column-gap: 12px; padding: 10px 12px; border-radius: 12px; border: 1px solid transparent; transition: background .3s, border-color .3s, opacity .3s; }
+.asm-steps li::before { content: counter(s, decimal-leading-zero); grid-row: 1 / 3; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 12px; color: var(--ink-2); background: var(--bg-2); transition: background .3s, color .3s; }
+.asm-steps b { font-family: var(--display); font-size: 16px; }
+.asm-steps span { color: var(--ink-2); font-size: 14px; line-height: 1.45; }
+.asm-steps li.done::before { background: linear-gradient(135deg, #0a70d8, #1a95e4); color: #fff; }
+.asm.live .asm-steps li { opacity: .5; cursor: pointer; }
+.asm.live .asm-steps li.done, .asm.live .asm-steps li.cur { opacity: 1; }
+.asm-steps li.cur { background: #fff; border-color: var(--line); box-shadow: 0 10px 24px -16px rgba(0,101,204,.5); }
+.asm-view { position: relative; background: radial-gradient(ellipse at 50% 60%, rgba(0,101,204,.08), transparent 65%); border-radius: var(--radius); }
+.asm-svg svg { display: block; width: 100%; height: auto; max-height: 64vh; overflow: visible; }
+.asm-layer { will-change: transform, opacity; }
+.asm.easing .asm-layer { transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+.asm-bar { height: 3px; background: var(--line); border-radius: 3px; margin: 8px 24px 0; overflow: hidden; }
+.asm-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #0065cc, #1a95e4); }
+.asm-toggle { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 13px; font-weight: 600; color: var(--accent); background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+.asm-toggle:hover { border-color: var(--accent); }
+.asm.live .asm-track { height: 280vh; }
+.asm.live .asm-stage { position: sticky; top: 72px; min-height: calc(100vh - 96px); }
+@media (max-width: 900px) { .asm-stage { grid-template-columns: 1fr; } .asm-view { order: -1; } .asm-steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .asm-steps { grid-template-columns: 1fr; } }
+
+/* Model cards: dimension overlay on hover */
+.model[data-dim] { position: relative; }
+.model[data-dim]::after { content: attr(data-dim); position: absolute; top: 18px; left: 18px; right: 18px; aspect-ratio: 1; display: grid; place-items: center; padding: 12px; border-radius: var(--radius); background: rgba(12,23,40,.62); color: #fff; font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .02em; outline: 1.5px dashed rgba(255,255,255,.7); outline-offset: -12px; opacity: 0; transition: opacity .25s ease; pointer-events: none; }
+.model[data-dim]:hover::after, .model[data-dim]:focus-visible::after { opacity: 1; }
+
+/* Project photos ease in on scroll */
+.proj.reveal img.ph { transform: scale(1.08); opacity: .4; transition: transform 1.1s cubic-bezier(.2,.7,.2,1), opacity 1s ease; }
+.proj.reveal.in img.ph { transform: none; opacity: 1; }
+.proj.reveal.in:hover img.ph { transform: scale(1.04); }
+
+@media (prefers-reduced-motion: reduce) {
+  .proj.reveal img.ph, .proj.reveal.in:hover img.ph { transform: none; opacity: 1; transition: none; }
+  a.card:hover, a.card:hover img.ph, .btn:hover, .next:hover, .next:hover .arrow, .gallery img:hover { transform: none; }
+  .asm.easing .asm-layer, .model[data-dim]::after, .asm-steps li { transition: none; }
+}
+.legal-body h3 { font-size: 20px; margin: 28px 0 8px; } .legal-body p { color: var(--ink-2); }
