@@ -21,7 +21,7 @@
     <a class="skip" href="#main">Skip to content</a>
     <div class="draft-bar">Draft layout · placeholder content and images · not for distribution</div>
     <div class="co-bar"><div class="wrap">
-      <span>A KYA company</span>
+      <a class="co-kya" href="${out(KYA, "company_bar")}"><span>A</span><img src="assets/img/kya-logo.png" alt="KYA"><span>company</span></a>
       <nav aria-label="Family of companies"><a href="${out(KYA, "company_bar")}">KYA Group</a><a href="${out(CHOICE, "company_bar")}">CHOICE</a><a href="index.html" aria-current="page">CUUBE</a></nav>
     </div></div>
     <nav class="gnav"><div class="wrap">

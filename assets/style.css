@@ -503,6 +503,9 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 .co-bar .wrap { display: flex; justify-content: space-between; align-items: center; height: 30px; gap: 16px; }
 .co-bar nav { display: flex; gap: 20px; }
 .co-bar a { color: #b6c2d3; }
+/* KYA's logo file includes "EMPLOYEE OWNED" below the boxed mark; crop to the mark */
+.co-kya { display: inline-flex; align-items: center; gap: 6px; }
+.co-kya img { height: 17px; aspect-ratio: 750 / 270; object-fit: cover; object-position: top; }
 .co-bar a[aria-current] { color: #fff; font-weight: 600; }
 .skip { position: absolute; left: 12px; top: -48px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; }
 .skip:focus { top: 12px; }
