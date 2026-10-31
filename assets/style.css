@@ -498,6 +498,12 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 .use-other { margin-top: 10px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 15px; }
 
 /* ---- Feedback round: DSA line, resilience, purchasing, motion ---- */
+/* Company bar: quiet links to the sister companies, above the main nav */
+.co-bar { background: var(--dark); color: #8fa0b8; font-size: 12px; }
+.co-bar .wrap { display: flex; justify-content: space-between; align-items: center; height: 30px; gap: 16px; }
+.co-bar nav { display: flex; gap: 20px; }
+.co-bar a { color: #b6c2d3; }
+.co-bar a[aria-current] { color: #fff; font-weight: 600; }
 .skip { position: absolute; left: 12px; top: -48px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; }
 .skip:focus { top: 12px; }
 :focus-visible { outline: 3px solid #4a9be8; outline-offset: 2px; }
@@ -523,6 +529,11 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 
 footer .cols.c5 { grid-template-columns: repeat(5, 1fr); }
 footer .legal { margin-top: 8px; }
+footer .family { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 32px; padding-bottom: 18px; border-bottom: 1px solid #22324d; margin-bottom: 18px; }
+footer .family .fh { margin: 0; }
+footer .family a { display: grid; gap: 2px; }
+footer .family b { color: #fff; font-size: 13px; }
+footer .family small { font-size: 12px; }
 footer .tbd { background: rgba(245,200,76,.18); color: #f5c84c; }
 @media (max-width: 900px) { footer .cols.c5 { grid-template-columns: 1fr 1fr; } }
 
@@ -577,3 +588,6 @@ main:focus { outline: none; }
 .logos span { color: #6e6e73; }
 p a:not(.link):not(.btn), footer a, .note a { text-decoration: underline; text-underline-offset: 2px; }
 header { display: contents; }
+
+/* KYA office list (Why CUUBE, How to Buy) */
+#contact .offices { justify-content: center; }

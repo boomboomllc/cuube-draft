@@ -88,13 +88,16 @@
   <div class="wrap" style="max-width:760px">
     <h2>Let's talk.</h2>
     <p class="sub">714.462.2955 · CUUBE@tlschoice.com</p>
+    <p>Your request goes to the nearest KYA Group office <span class="tbd">[confirm routing]</span>:</p>
+    <div class="tags offices"><span>Rancho Cordova</span><span>Dublin</span><span>Santa Ana</span><span>Chula Vista</span><span>Bakersfield</span><span>Fresno</span><span>Round Rock, TX</span></div>
     <form class="lead" onsubmit="event.preventDefault();alert('Draft only — form not connected.')">
       <label>Name<input name="name" autocomplete="name" required></label>
       <label>Organization<input name="organization" autocomplete="organization" required></label>
       <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <label>Project ZIP code<input name="zip" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label>
       <label>I'm with a…<select name="sector"><option>School district</option><option>City</option><option>County</option><option>Federal agency</option><option>Other</option></select></label>
       <label class="full">What are you looking to build?<textarea name="message"></textarea></label>
-      <p class="full form-note">All fields except the message are required.</p>
+      <p class="full form-note">All fields except the message are required. We use your ZIP code to connect you with the nearest office.</p>
       <div class="full"><button class="btn">Send</button></div>
     </form>
   </div>

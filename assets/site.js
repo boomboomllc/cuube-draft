@@ -11,9 +11,19 @@
     ["how-to-buy.html", "How to Buy", "buy"],
   ];
 
+  // Sister-company links carry utm tags so KYA's analytics can count visitors sent from CUUBE
+  const KYA = "https://www.thekyagroup.com";
+  const CHOICE = "https://tlschoice.com";
+  const out = (url, spot) => `${url}${url.includes("?") ? "&" : "?"}utm_source=cuube&utm_medium=referral&utm_campaign=${spot}`;
+  window.cuubeOut = out;
+
   const header = `
     <a class="skip" href="#main">Skip to content</a>
     <div class="draft-bar">Draft layout · placeholder content and images · not for distribution</div>
+    <div class="co-bar"><div class="wrap">
+      <span>A KYA company</span>
+      <nav aria-label="Family of companies"><a href="${out(KYA, "company_bar")}">KYA Group</a><a href="${out(CHOICE, "company_bar")}">CHOICE</a><a href="index.html" aria-current="page">CUUBE</a></nav>
+    </div></div>
     <nav class="gnav"><div class="wrap">
       <a class="logo" href="index.html"><img src="assets/img/cuube-logo.png" alt="CUUBE"></a>
       <ul id="gmenu">
@@ -42,6 +52,12 @@
           <li><a href="tel:+17144622955">714.462.2955</a></li><li><a href="mailto:CUUBE@tlschoice.com">CUUBE@tlschoice.com</a></li>
           <li>[Street address]<br>[City], CA [ZIP]</li></ul></div>
       </div>
+      <div class="family">
+        <span class="fh">Family of companies</span>
+        <a href="${out(KYA, "footer")}"><b>KYA Group</b><small>General contractor · 7 offices in CA &amp; TX</small></a>
+        <a href="${out(CHOICE, "footer")}"><b>CHOICE</b><small>Contracting · offers CUUBE</small></a>
+        <a href="index.html"><b>CUUBE</b><small>Pre-engineered steel buildings</small></a>
+      </div>
       <p class="legal">CUUBE is offered by TLS Choice and built by KYA Group <span class="tbd">[describe KYA relationship]</span>. CA Contractor License (CSLB) #<span class="tbd">[number]</span> · DSA pre-approved plans <span class="tbd">[PC #]</span> · DIR #<span class="tbd">[number]</span></p>
       <p class="legal">© 2026 CUUBE · <a href="privacy.html">Privacy policy</a> · <a href="accessibility.html">Accessibility statement</a> · Draft site, content is placeholder.</p>
     </div></footer>`;
@@ -50,7 +66,7 @@
   document.body.insertAdjacentHTML("beforeend", footer);
   // Landmarks: banner header, one <main> around the page content
   const head = document.createElement("header");
-  head.append(...document.querySelectorAll("body > .skip, body > .draft-bar, body > .gnav"));
+  head.append(...document.querySelectorAll("body > .skip, body > .draft-bar, body > .co-bar, body > .gnav"));
   document.body.prepend(head);
   const main = document.createElement("main");
   main.id = "main"; main.tabIndex = -1;
@@ -58,6 +74,26 @@
   head.after(main);
   // Moving the content resets the browser's jump to #anchor, so re-apply it
   if (location.hash) requestAnimationFrame(() => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView());
+
+  // Lead tagging: remember the first landing's source for this visit, then add it to every quote form
+  // so the CRM can sort leads by brand, page and sector and route them to a regional office by ZIP
+  const q = new URLSearchParams(location.search);
+  const store = (() => { try { return sessionStorage; } catch { return null; } })();
+  const first = (() => { try { return JSON.parse(store?.getItem("cuube-src") || "null"); } catch { return null; } })() || {
+    utm_source: q.get("utm_source") || "", utm_medium: q.get("utm_medium") || "", utm_campaign: q.get("utm_campaign") || "",
+    referrer: document.referrer && !document.referrer.startsWith(location.origin) ? document.referrer : "",
+    landing_page: location.pathname,
+  };
+  try { store?.setItem("cuube-src", JSON.stringify(first)); } catch {}
+  document.querySelectorAll("form.lead").forEach((f) => {
+    const tags = { brand: "CUUBE", form_page: location.pathname, sector_hint: q.get("sector") || (["schools", "cities", "federal"].includes(page) ? page : ""), ...first };
+    Object.entries(tags).forEach(([name, value]) => {
+      if (f.elements[name]) return;
+      const i = document.createElement("input");
+      i.type = "hidden"; i.name = name; i.value = value;
+      f.append(i);
+    });
+  });
 
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const conn = navigator.connection || {};
@@ -68,7 +104,7 @@
   openHash(); addEventListener("hashchange", openHash);
 
   // Project cards: photos ease in as they scroll into view
-  document.querySelectorAll('a.card[href^="project.html"]').forEach((c) => c.classList.add("proj"));
+  document.querySelectorAll('a.card[href^="project.html"], a.card[href*="thekyagroup.com/projects/"]').forEach((c) => c.classList.add("proj"));
 
   // Scroll reveal
   const io = new IntersectionObserver((es) => es.forEach((e) => {
