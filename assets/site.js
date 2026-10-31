@@ -57,7 +57,7 @@
           <li><a href="how-to-buy.html#purchasing">Purchasing options</a></li><li><a href="how-to-buy.html#contact">Talk to a specialist</a></li></ul></div>
         <div><h2 class="fh">Contact</h2><ul>
           <li><a href="tel:+17144622955">714.462.2955</a></li><li><a href="mailto:CUUBE@tlschoice.com">CUUBE@tlschoice.com</a></li>
-          <li>[Street address]<br>[City], CA [ZIP]</li></ul></div>
+          <li>1800 E. McFadden Ave., Suite 2<br>Santa Ana, CA 92705 <span class="tbd">[confirm]</span></li></ul></div>
       </div>
       <div class="family">
         <span class="fh">Family of companies</span>
@@ -65,7 +65,7 @@
         <a href="${out(CHOICE, "footer")}"><b>CHOICE</b><small>Contracting · offers CUUBE</small></a>
         <a href="index.html"><b>CUUBE</b><small>Pre-engineered steel buildings</small></a>
       </div>
-      <p class="legal">CUUBE is offered by TLS Choice and built by KYA Group <span class="tbd">[describe KYA relationship]</span>. CA Contractor License (CSLB) #<span class="tbd">[number]</span> · DSA pre-approved plans <span class="tbd">[PC #]</span> · DIR #<span class="tbd">[number]</span></p>
+      <p class="legal">CUUBE is offered by TLS Choice and built by KYA Group <span class="tbd">[describe KYA relationship]</span>. CSLB: TLS Choice #<span class="tbd">1025607 [confirm]</span> · KYA Group #<span class="tbd">984827 [confirm]</span> · DSA pre-check approvals <span class="tbd">04-119376, 04-119377, 04-121053, 04-122134, 04-122304, 04-122422, 04-122447 [confirm which are current]</span> · DIR #<span class="tbd">[number]</span></p>
       <p class="legal">© 2026 CUUBE · <a href="privacy.html">Privacy policy</a> · <a href="accessibility.html">Accessibility statement</a> · Draft site, content is placeholder.</p>
     </div></footer>`;
 
