@@ -280,23 +280,117 @@
   // Builder
   const builder = document.querySelector(".builder");
   if (builder) {
-    const state = {};
     const params = new URLSearchParams(location.search);
-    builder.querySelectorAll("[data-group]").forEach((group) => {
-      const key = group.dataset.group;
-      const multi = group.hasAttribute("data-multi");
-      const items = group.querySelectorAll("[data-val]");
-      const preset = params.get(key);
-      items.forEach((it) => {
-        if (preset && it.dataset.val === preset) it.classList.add("on");
-        it.addEventListener("click", () => {
-          if (multi) it.classList.toggle("on");
-          else items.forEach((o) => o.classList.toggle("on", o === it));
-          update();
-        });
-      });
-      if (!multi && !group.querySelector(".on")) items[0].classList.add("on");
+    const fmt = (n) => n.toLocaleString("en-US");
+
+    // Series and sizes from the Models page. "rooms" are each series' build options.
+    const SERIES = {
+      32: { lengths: [72, 104, 136, 168], rooms: ["Classroom with single restroom", "Storage / support room", "Restroom", "Electrical room", "Fire sprinkler / custodial room"] },
+      36: { lengths: [86, 118, 152], rooms: ["Storage / support room", "Restroom", "Electrical room", "Fire sprinkler / custodial room"] },
+      60: { lengths: [96, 128, 208], rooms: ["Full-service kitchen", "Stage", "Restrooms"] },
+      100: { lengths: [70, 90, 100, 120], rooms: ["Locker rooms", "Stage", "Bleachers"] },
+      200: { lengths: [45], stories: 2, rooms: ["Restrooms", "Custodial room", "Elevator"] },
+    };
+    // Uses per audience: [value, label, best-fit series]. Values match the links on the audience pages.
+    const USES = {
+      schools: [["classroom", "Classrooms", [32, 36, 200]], ["upk", "UPK / TK", [32, 36]], ["gym", "Gym", [100]], ["multipurpose", "Multipurpose / Cafeteria", [60, 100]],
+        ["library", "Library / Media", [60]], ["theatre", "Theatre / Assembly", [100]], ["office", "Admin / Office", [36, 60]], ["restroom", "Restrooms", [32, 36]]],
+      cities: [["community", "Community center", [60, 100]], ["gym", "Gym / Rec center", [100]], ["cooling", "Cooling center / Shelter", [60, 100]], ["library", "Library", [60]],
+        ["office", "Offices / Public works", [36, 60]], ["multipurpose", "Event / Multipurpose", [60, 100]], ["restroom", "Restroom building", [32, 36]]],
+      federal: [["office", "Admin / Offices", [36, 60]], ["classroom", "Training classrooms", [32, 36, 200]], ["gym", "Fitness / Gym", [100]], ["housing", "Barracks / Housing", [200]],
+        ["clinic", "Clinic / Medical", [60]], ["restroom", "Restrooms", [32, 36]]],
+    };
+    const DOORS = ["Storefront entry", "Roll-up doors", "Sliding doors", "Telescoping doors", "Clerestory windows", "Solatubes"];
+    // Extras by audience and by use; [label, needsConfirm]
+    const AUD_EXTRAS = { schools: [["Play&Park playground"], ["Bottle-fill station"]], cities: [["Play&Park playground"], ["Bottle-fill station"]], federal: [] };
+    const USE_EXTRAS = { cooling: [["Backup power / generator hookup", true]] };
+    const ORG = { schools: "School district", cities: "City, county, or agency", federal: "Agency, base, or installation" };
+
+    const sizeLabel = (v) => v.replace("x", "×");
+    const area = (v) => { const [w, l] = v.split("x").map(Number); return SERIES[w].stories ? `${SERIES[w].stories} stories · ${fmt(w * l)} sq ft per floor` : `${fmt(w * l)} sq ft`; };
+
+    const st = { aud: "schools", use: "", model: "", modelPicked: false, addons: new Set(), other: "" };
+    const pSector = params.get("sector"), pUse = params.get("use"), pModel = params.get("model");
+    if (USES[pSector]) st.aud = pSector;
+    else if (pUse && !USES.schools.some((u) => u[0] === pUse)) st.aud = Object.keys(USES).find((a) => USES[a].some((u) => u[0] === pUse)) || "schools";
+    const validModel = (v) => { const [w, l] = (v || "").split("x").map(Number); return SERIES[w] && SERIES[w].lengths.includes(l) ? v : ""; };
+    st.model = validModel(pModel) || (SERIES[+pModel] ? `${pModel}x${SERIES[+pModel].lengths[0]}` : "");
+    st.modelPicked = !!st.model;
+    const uses = () => USES[st.aud];
+    const useRow = () => uses().find((u) => u[0] === st.use);
+    const fits = () => (useRow() ? useRow()[2] : Object.keys(SERIES).map(Number));
+    // Start from the linked use, else the first use that suits the linked size, else the audience's first use
+    st.use = uses().some((u) => u[0] === pUse) ? pUse : (st.model && uses().find((u) => u[2].includes(+st.model.split("x")[0]))?.[0]) || uses()[0][0];
+
+    const useBox = builder.querySelector("#b-use"), sizeBox = builder.querySelector("#b-size"), addBox = builder.querySelector("#b-addons");
+    const otherInput = builder.querySelector(".use-other");
+    const opt = (val, label, small, on, extra = "") => `<button type="button" class="opt${on ? " on" : ""}" data-val="${val}"${extra}>${label}${small ? `<small>${small}</small>` : ""}</button>`;
+
+    function renderAud() {
+      builder.querySelectorAll("[data-aud]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.aud === st.aud));
+      const org = builder.querySelector('form.lead input[name="organization"]');
+      if (org) org.placeholder = ORG[st.aud];
+      const hint = builder.querySelector('form.lead input[name="sector_hint"]');
+      if (hint) hint.value = st.aud;
+    }
+    function renderUse() {
+      useBox.innerHTML = uses().map(([v, l]) => opt(v, l, "", v === st.use)).join("") + opt("other", "Tell us", "Something else", st.use === "other");
+      otherInput.hidden = st.use !== "other";
+    }
+    function renderSize() {
+      const best = fits(), rest = Object.keys(SERIES).map(Number).filter((s) => !best.includes(s));
+      if (!st.model || (!st.modelPicked && !best.includes(+st.model.split("x")[0]))) {
+        const s = best[0];
+        st.model = `${s}x${SERIES[s].lengths[Math.floor((SERIES[s].lengths.length - 1) / 2)]}`;
+      }
+      const group = (list) => list.map((s) => `<h3 class="opt-head">${s} Series</h3>` + SERIES[s].lengths.map((l) => opt(`${s}x${l}`, sizeLabel(`${s}x${l}`), area(`${s}x${l}`), st.model === `${s}x${l}`)).join("")).join("");
+      const useName = st.use === "other" ? "your use" : useRow()[1];
+      const off = !best.includes(+st.model.split("x")[0]);
+      sizeBox.innerHTML = `<p class="opt-group">Best fit for ${useName}</p><div class="opts sizes-best">${group(best)}</div>` +
+        (rest.length ? `<details class="more-sizes"${off ? " open" : ""}><summary>Other sizes</summary><div class="opts">${group(rest)}</div></details>` : "") +
+        (off ? `<p class="fit-note">The ${st.model.split("x")[0]} Series isn't a typical fit for ${useName}. A specialist can confirm it works.</p>` : "");
+    }
+    function addonGroups() {
+      const s = +st.model.split("x")[0];
+      return [
+        [`Rooms for the ${s} Series`, SERIES[s].rooms.map((r) => [r])],
+        ["Doors & daylight", DOORS.map((d) => [d])],
+        ["Extras", [...(AUD_EXTRAS[st.aud] || []), ...(USE_EXTRAS[st.use] || [])]],
+      ].filter(([, items]) => items.length);
+    }
+    function renderAddons() {
+      const groups = addonGroups(), avail = new Set(groups.flatMap(([, items]) => items.map((i) => i[0])));
+      [...st.addons].forEach((a) => { if (!avail.has(a)) st.addons.delete(a); });
+      addBox.innerHTML = groups.map(([head, items]) => `<p class="opt-group">${head}</p><div class="opts">${items.map(([l, c]) =>
+        opt(l, c ? `${l} <span class="tbd">[confirm]</span>` : l, "", st.addons.has(l))).join("")}</div>`).join("");
+    }
+
+    builder.querySelectorAll("[data-aud]").forEach((b) => b.addEventListener("click", () => {
+      if (st.aud === b.dataset.aud) return;
+      st.aud = b.dataset.aud;
+      if (st.use !== "other" && !useRow()) st.use = uses()[0][0];
+      st.modelPicked = false;
+      renderAll();
+    }));
+    useBox.addEventListener("click", (e) => {
+      const b = e.target.closest(".opt"); if (!b) return;
+      st.use = b.dataset.val;
+      renderUse(); renderSize(); renderAddons(); update();
+      if (st.use === "other") otherInput.focus();
     });
+    sizeBox.addEventListener("click", (e) => {
+      const b = e.target.closest(".opt"); if (!b) return;
+      st.model = b.dataset.val; st.modelPicked = true;
+      renderSize(); renderAddons(); update();
+    });
+    addBox.addEventListener("click", (e) => {
+      const b = e.target.closest(".opt"); if (!b) return;
+      st.addons.has(b.dataset.val) ? st.addons.delete(b.dataset.val) : st.addons.add(b.dataset.val);
+      b.classList.toggle("on");
+      update();
+    });
+    otherInput.addEventListener("input", () => { st.other = otherInput.value.trim(); update(); });
+
     // Colors: one palette, applied to whichever component tab is active
     const pal = builder.querySelector(".cpal");
     const tabs = [...builder.querySelectorAll(".ctab")];
@@ -324,55 +418,23 @@
       }));
       paintColors();
     }
-    // Collapse long option lists behind "See more"
-    builder.querySelectorAll("[data-collapse]").forEach((g) => {
-      const max = +g.dataset.collapse;
-      let n = 0;
-      const extra = [...g.children].filter((el) => (el.classList.contains("opt") && ++n > max) || n >= max && !el.classList.contains("opt"));
-      if (!extra.length) return;
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "see-more";
-      g.after(btn);
-      const set = (open) => {
-        extra.forEach((el) => (el.hidden = !open));
-        btn.textContent = open ? "See less" : `See more (${extra.filter((el) => el.classList.contains("opt")).length})`;
-        btn.dataset.open = open ? "1" : "";
-      };
-      btn.addEventListener("click", () => set(!btn.dataset.open));
-      set(extra.some((el) => el.classList.contains("on")));
-    });
-    builder.querySelector(".use-other")?.addEventListener("input", () => update());
+
     function update() {
-      builder.querySelectorAll("[data-group]").forEach((g) => {
-        const on = [...g.querySelectorAll(".on")].map((o) => o.dataset.label || o.dataset.val);
-        state[g.dataset.group] = on.length ? on.join(", ") : "None";
-      });
-      Object.assign(state, colors);
-      const other = builder.querySelector(".use-other");
-      if (other) {
-        const on = builder.querySelector('[data-group="use"] [data-val="other"]').classList.contains("on");
-        if (on && other.hidden) { other.hidden = false; other.focus(); }
-        other.hidden = !on;
-        if (on) state.use = other.value.trim() || "Other";
-      }
-      const dl = document.getElementById("summary");
-      dl.innerHTML = Object.entries({
-        Model: state.model, Use: state.use, "Field panels": state.field, "Accent panels": state.accent, Columns: state.columns,
-        Beams: state.beams, Eaves: state.eaves, Roof: state.roof, Trim: state.trim, Extras: state.extras,
-      }).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
-      document.getElementById("pv-label").textContent =
-        `${state.model} · ${state.use} · ${state.field} field panels — live 3D preview coming`;
-      const on = builder.querySelector('[data-group="model"] .on');
+      const s = st.model.split("x")[0];
+      const useText = st.use === "other" ? st.other || "Other" : useRow()[1];
+      const audText = builder.querySelector(`[data-aud="${st.aud}"]`).textContent;
+      const sizeText = `${s} Series · ${sizeLabel(st.model)} · ${area(st.model)}`;
+      const addText = st.addons.size ? [...st.addons].join(", ") : "None";
+      const dots = tabs.map((t) => `<i class="sdot" title="${t.textContent}: ${colors[t.dataset.part]}" style="background:${pal.querySelector(`[data-val="${colors[t.dataset.part]}"]`).style.background}"></i>`).join("");
+      document.getElementById("summary").innerHTML = Object.entries({ For: audText, Use: useText, Size: sizeText, Colors: `<span class="sdots">${dots}</span>`, "Rooms & options": addText })
+        .map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+      document.getElementById("pv-label").textContent = `${sizeLabel(st.model)} · ${useText} · ${colors.field} field panels — live 3D preview coming`;
       const pv = document.getElementById("pv-img");
-      if (on && pv) pv.src = `assets/img/series-${on.dataset.val.split("x")[0]}.jpg`;
+      if (pv) pv.src = `assets/img/series-${s}.jpg`;
       const msg = document.getElementById("msg");
-      if (msg) msg.value = Object.entries(state).map(([k, v]) => `${k}: ${v}`).join("\n");
+      if (msg) msg.value = [`For: ${audText}`, `Use: ${useText}`, `Size: ${sizeText}`, ...tabs.map((t) => `${t.textContent}: ${colors[t.dataset.part]}`), `Rooms & options: ${addText}`].join("\n");
     }
-    if (params.get("sector") === "federal") {
-      const org = document.querySelector('form.lead input[placeholder^="District"]');
-      if (org) org.placeholder = "Agency, base, or installation";
-    }
-    update();
+    function renderAll() { renderAud(); renderUse(); renderSize(); renderAddons(); update(); }
+    renderAll();
   }
 })();

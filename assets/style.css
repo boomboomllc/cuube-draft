@@ -385,7 +385,7 @@ h1 { font-weight: 800; letter-spacing: -.035em; }
 h2 { font-weight: 800; letter-spacing: -.03em; }
 
 /* Hero: soft blue light behind the first section, gradient on the second line */
-main > section:first-of-type { position: relative; overflow: hidden; }
+main > section:first-of-type { position: relative; overflow: clip; }
 main > section:first-of-type::before { content: ""; position: absolute; inset: -20% -10% auto; height: 560px; background: radial-gradient(ellipse at 30% 40%, rgba(0,101,204,.13), transparent 60%), radial-gradient(ellipse at 75% 20%, rgba(56,189,248,.11), transparent 55%); pointer-events: none; z-index: 0; }
 main > section:first-of-type > .wrap { position: relative; z-index: 1; }
 h1 { color: var(--ink); }
@@ -612,3 +612,27 @@ header { display: contents; }
 
 /* KYA office list (Why CUUBE, How to Buy) */
 #contact .offices { justify-content: center; }
+
+/* Builder: preview stays in view and fits the screen; audience switch; grouped options */
+.preview { top: 72px; }
+.pv-wrap img.ph, .preview .ph { height: clamp(220px, 42vh, 420px); min-height: 0; }
+.preview .summary { margin-top: 14px; padding: 18px 20px; font-size: 14px; }
+.preview .summary h3 { margin-bottom: 8px !important; }
+.summary dl { gap: 6px 14px; }
+.sdots { display: inline-flex; gap: 4px; vertical-align: -2px; }
+.sdot { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.aud { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding-bottom: 20px; font-size: 14px; color: var(--ink-2); }
+.aud span { margin-right: 6px; }
+.aud button { font: inherit; font-size: 14px; padding: 7px 14px; border-radius: 980px; border: 1px solid var(--line); background: #fff; color: var(--ink); cursor: pointer; }
+.aud button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.opt-group { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); margin: 18px 0 8px; }
+.opt-group:first-child { margin-top: 0; }
+#b-size .opts { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+#b-size .opt { padding: 8px 10px; font-size: 14px; }
+#b-size .opt small { font-size: 11px; margin-top: 0; }
+.more-sizes { margin-top: 14px; }
+.more-sizes summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--accent); }
+.more-sizes .opts { margin-top: 10px; }
+.fit-note { margin-top: 12px; font-size: 14px; color: #8a5a00; background: #fff4e0; border-radius: 10px; padding: 10px 12px; }
+.b-note, .b-incl { margin-top: 14px; font-size: 13px; color: var(--ink-2); }
+@media (max-height: 760px) and (min-width: 901px) { .preview .summary { font-size: 13px; padding: 14px 16px; } }

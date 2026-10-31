@@ -31,46 +31,23 @@
       </div>
 
       <div>
-        <div class="bstep">
-          <h3><span class="n">1</span>Choose a series &amp; size</h3><p>Size sets what fits inside. <a href="models.html#compare">Compare series</a></p>
-          <div class="opts" data-group="model" data-collapse="7">
-            <h3 class="opt-head">32 Series</h3>
-            <button class="opt" data-val="32x72" data-label="32 Series · 32×72">32×72<small>32 Series</small></button>
-            <button class="opt" data-val="32x104" data-label="32 Series · 32×104">32×104<small>32 Series</small></button>
-            <button class="opt" data-val="32x136" data-label="32 Series · 32×136">32×136<small>32 Series</small></button>
-            <button class="opt" data-val="32x168" data-label="32 Series · 32×168">32×168<small>32 Series</small></button>
-            <h3 class="opt-head">36 Series</h3>
-            <button class="opt" data-val="36x86" data-label="36 Series · 36×86">36×86<small>36 Series</small></button>
-            <button class="opt" data-val="36x118" data-label="36 Series · 36×118">36×118<small>36 Series</small></button>
-            <button class="opt" data-val="36x152" data-label="36 Series · 36×152">36×152<small>36 Series</small></button>
-            <h3 class="opt-head">60 Series</h3>
-            <button class="opt" data-val="60x96" data-label="60 Series · 60×96">60×96<small>60 Series</small></button>
-            <button class="opt" data-val="60x128" data-label="60 Series · 60×128">60×128<small>60 Series</small></button>
-            <button class="opt" data-val="60x208" data-label="60 Series · 60×208">60×208<small>60 Series</small></button>
-            <h3 class="opt-head">100 Series</h3>
-            <button class="opt" data-val="100x70" data-label="100 Series · 100×70">100×70<small>100 Series</small></button>
-            <button class="opt" data-val="100x90" data-label="100 Series · 100×90">100×90<small>100 Series</small></button>
-            <button class="opt" data-val="100x100" data-label="100 Series · 100×100">100×100<small>100 Series</small></button>
-            <button class="opt" data-val="100x120" data-label="100 Series · 100×120">100×120<small>100 Series</small></button>
-            <h3 class="opt-head">200 Series</h3>
-            <button class="opt" data-val="200x45" data-label="200 Series · 200×45">200×45<small>200 Series</small></button>
-          </div>
+        <div class="aud" role="group" aria-label="Who is it for?">
+          <span>Building for</span>
+          <button type="button" data-aud="schools">Schools</button>
+          <button type="button" data-aud="cities">Cities &amp; Counties</button>
+          <button type="button" data-aud="federal">Federal</button>
         </div>
 
         <div class="bstep">
-          <h3><span class="n">2</span>What will it be used for?</h3><p>We'll suggest a floor plan.</p>
-          <div class="opts" data-group="use">
-            <button class="opt" data-val="classroom" data-label="Classrooms">Classrooms</button>
-            <button class="opt" data-val="upk" data-label="UPK / TK">UPK / TK</button>
-            <button class="opt" data-val="gym" data-label="Gym / Rec">Gym / Rec</button>
-            <button class="opt" data-val="multipurpose" data-label="Multipurpose / Cafeteria">Multipurpose / Cafeteria</button>
-            <button class="opt" data-val="restroom" data-label="Restrooms">Restrooms</button>
-            <button class="opt" data-val="office" data-label="Offices">Offices</button>
-            <button class="opt" data-val="housing" data-label="Barracks / Housing">Barracks / Housing</button>
-            <button class="opt" data-val="clinic" data-label="Clinic / Medical">Clinic / Medical</button>
-            <button class="opt" data-val="other" data-label="Other">Tell us<small>Something else</small></button>
-          </div>
+          <h3><span class="n">1</span>What will it be used for?</h3><p>We'll suggest the sizes that fit.</p>
+          <div class="opts" id="b-use"></div>
           <input class="use-other" type="text" aria-label="What will you use it for?" placeholder="What will you use it for?" hidden>
+        </div>
+
+        <div class="bstep">
+          <h3><span class="n">2</span>Choose a size</h3><p>Best fits for your use come first. <a href="models.html#compare">Compare series</a></p>
+          <div id="b-size"></div>
+          <p class="b-note">Suggested fits are based on each series' typical use <span class="tbd">[confirm with KYA]</span>.</p>
         </div>
 
         <div class="bstep">
@@ -103,15 +80,9 @@
         </div>
 
         <div class="bstep">
-          <h3><span class="n">4</span>Add options</h3><p>Select any that apply.</p>
-          <div class="opts" data-group="extras" data-multi>
-            <button class="opt" data-val="Clerestory windows">Clerestory windows</button>
-            <button class="opt" data-val="Roll-up doors">Roll-up doors</button>
-            <button class="opt" data-val="Storefront entry">Storefront entry</button>
-            <button class="opt" data-val="Solar-ready">Solar-ready</button>
-            <button class="opt" data-val="Solatubes">Solatubes</button>
-            <button class="opt" data-val="Bottle-fill station">Bottle-fill station</button>
-          </div>
+          <h3><span class="n">4</span>Add rooms &amp; options</h3><p>Choices change with the series and use you picked.</p>
+          <div id="b-addons"></div>
+          <p class="b-incl"><b>Included in every CUUBE:</b> insulated steel panels, acoustic ceiling deck, skylights, efficient HVAC, overhead fans and a solar-ready roof.</p>
         </div>
 
         <div class="bstep">
