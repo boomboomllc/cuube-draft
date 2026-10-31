@@ -19,10 +19,17 @@
 
   const header = `
     <a class="skip" href="#main">Skip to content</a>
-    <div class="draft-bar">Draft layout · placeholder content and images · not for distribution</div>
     <div class="co-bar"><div class="wrap">
-      <a class="co-kya" href="${out(KYA, "company_bar")}"><span>A</span><img src="assets/img/kya-logo.png" alt="KYA"><span>company</span></a>
-      <nav aria-label="Family of companies"><a href="${out(KYA, "company_bar")}">KYA Group</a><a href="${out(CHOICE, "company_bar")}">CHOICE</a><a href="index.html" aria-current="page">CUUBE</a></nav>
+      <a class="co-kya" href="${out(KYA, "company_bar")}"><span class="co-pre">Part of the</span><span class="co-mark"><img src="assets/img/kya-logo.png" alt="KYA"></span><span class="co-post">family</span></a>
+      <span class="co-draft" title="Placeholder content and images · not for distribution">Draft<span class="co-long"> layout · placeholder content</span></span>
+      <nav class="co-links" aria-label="Family of companies">
+        ${[
+          ["KYA Group", out(KYA, "company_bar"), "General contractor · 7 offices in CA &amp; TX"],
+          ["CHOICE", out(CHOICE, "company_bar"), "Contracting · offers CUUBE"],
+        ].map(([name, href, blurb], i) => `<span class="co-item"><a href="${href}" aria-describedby="co-tip-${i}">${name}</a><span class="co-tip" id="co-tip-${i}" role="tooltip"><b>${name}</b>${blurb}<span class="co-go">Visit site →</span></span></span>`).join("")}
+        <span class="co-item"><a href="index.html" aria-current="page">CUUBE</a></span>
+        <i class="co-ind" aria-hidden="true"></i>
+      </nav>
     </div></div>
     <nav class="gnav"><div class="wrap">
       <a class="logo" href="index.html"><img src="assets/img/cuube-logo.png" alt="CUUBE"></a>
@@ -66,7 +73,7 @@
   document.body.insertAdjacentHTML("beforeend", footer);
   // Landmarks: banner header, one <main> around the page content
   const head = document.createElement("header");
-  head.append(...document.querySelectorAll("body > .skip, body > .draft-bar, body > .co-bar, body > .gnav"));
+  head.append(...document.querySelectorAll("body > .skip, body > .co-bar, body > .gnav"));
   document.body.prepend(head);
   const main = document.createElement("main");
   main.id = "main"; main.tabIndex = -1;
@@ -96,6 +103,28 @@
   });
 
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Company bar: an underline rests on CUUBE and glides to whichever sister link is hovered or focused
+  const coNav = document.querySelector(".co-links");
+  if (coNav) {
+    const ind = coNav.querySelector(".co-ind");
+    const home = coNav.querySelector("[aria-current]");
+    const moveTo = (a) => { const item = a.closest(".co-item"); ind.style.left = `${item.offsetLeft}px`; ind.style.width = `${item.offsetWidth}px`; };
+    moveTo(home);
+    addEventListener("resize", () => moveTo(home));
+    coNav.querySelectorAll("a").forEach((a) => {
+      a.addEventListener("mouseenter", () => moveTo(a));
+      a.addEventListener("focus", () => moveTo(a));
+      a.addEventListener("blur", () => moveTo(home));
+    });
+    coNav.addEventListener("mouseleave", () => moveTo(home));
+    requestAnimationFrame(() => ind.classList.add("ready"));
+  }
+  // The KYA mark catches the light once per visit
+  if (!reduced && !store?.getItem("cuube-glint")) {
+    document.querySelector(".co-mark")?.classList.add("glint");
+    try { store?.setItem("cuube-glint", "1"); } catch {}
+  }
   const conn = navigator.connection || {};
   const slow = conn.saveData || /(^|-)2g|3g/.test(conn.effectiveType || "");
 

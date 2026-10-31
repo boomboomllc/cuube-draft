@@ -498,15 +498,33 @@ html:has(.lnav) { scroll-padding-top: 64px; }
 .use-other { margin-top: 10px; width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; font: inherit; font-size: 15px; }
 
 /* ---- Feedback round: DSA line, resilience, purchasing, motion ---- */
-/* Company bar: quiet links to the sister companies, above the main nav */
-.co-bar { background: var(--dark); color: #8fa0b8; font-size: 12px; }
-.co-bar .wrap { display: flex; justify-content: space-between; align-items: center; height: 30px; gap: 16px; }
-.co-bar nav { display: flex; gap: 20px; }
-.co-bar a { color: #b6c2d3; }
-/* KYA's logo file includes "EMPLOYEE OWNED" below the boxed mark; crop to the mark */
-.co-kya { display: inline-flex; align-items: center; gap: 6px; }
-.co-kya img { height: 17px; aspect-ratio: 750 / 270; object-fit: cover; object-position: top; }
+/* Company bar: one dark strip above the main nav with the draft notice, the KYA family and sister links */
+.co-bar { position: relative; z-index: 60; background: linear-gradient(90deg, #0a1322, #0f1d33 50%, #0a1322); color: #8fa0b8; font-size: 12px; }
+.co-bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(34,166,240,.55) 30%, rgba(111,177,245,.7) 50%, rgba(34,166,240,.55) 70%, transparent); }
+.co-bar .wrap { display: flex; align-items: center; height: 34px; gap: 16px; }
+.co-bar a { color: #b6c2d3; text-decoration: none; transition: color .2s; }
+.co-bar a:hover, .co-bar a:focus-visible { color: #fff; }
+.co-kya { display: inline-flex; align-items: center; gap: 7px; }
+.co-mark { position: relative; display: inline-block; overflow: hidden; line-height: 0; }
+.co-mark img { height: 17px; aspect-ratio: 750 / 270; object-fit: cover; object-position: top; }
+.co-mark.glint::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.85) 50%, transparent 70%); transform: translateX(-120%); animation: co-glint 1.4s .6s cubic-bezier(.4,0,.2,1) forwards; mix-blend-mode: overlay; }
+@keyframes co-glint { to { transform: translateX(120%); } }
+.co-draft { margin: 0 auto; padding: 2px 10px; border-radius: 980px; border: 1px solid rgba(245,200,76,.35); background: rgba(245,200,76,.1); color: #f5c84c; font-size: 11px; letter-spacing: .04em; white-space: nowrap; }
+.co-links { position: relative; display: flex; gap: 20px; }
+.co-item { position: relative; }
+.co-links a { display: inline-block; padding: 9px 0; white-space: nowrap; }
 .co-bar a[aria-current] { color: #fff; font-weight: 600; }
+.co-ind { position: absolute; bottom: 5px; left: 0; height: 2px; width: 0; border-radius: 2px; background: linear-gradient(90deg, #22a6f0, #6fb1f5); box-shadow: 0 0 8px rgba(34,166,240,.7); pointer-events: none; }
+.co-ind.ready { transition: left .35s cubic-bezier(.3,.7,.2,1), width .35s cubic-bezier(.3,.7,.2,1); }
+/* Hover previews: a small card under each sister link (mouse and keyboard only; phones just follow the link) */
+.co-tip { position: absolute; top: calc(100% + 6px); right: 0; width: 220px; display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: #13213a; border: 1px solid #22324d; box-shadow: 0 18px 40px -12px rgba(0,0,0,.55); color: #a9b4c4; font-size: 12px; line-height: 1.45; opacity: 0; transform: translateY(-4px); pointer-events: none; transition: opacity .2s, transform .2s; }
+.co-tip b { color: #fff; font-size: 13px; }
+.co-go { color: #6fb1f5; font-weight: 600; margin-top: 2px; }
+@media (hover: hover) { .co-item:hover .co-tip { opacity: 1; transform: none; } }
+.co-item:focus-within .co-tip { opacity: 1; transform: none; }
+@media (max-width: 700px) { .co-long, .co-pre { display: none; } .co-links { gap: 14px; } .co-tip { display: none; } }
+@media (max-width: 420px) { .co-post { display: none; } .co-bar .wrap { gap: 10px; } }
+@media (prefers-reduced-motion: reduce) { .co-ind.ready, .co-tip { transition: none; } }
 .skip { position: absolute; left: 12px; top: -48px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; font-weight: 600; }
 .skip:focus { top: 12px; }
 :focus-visible { outline: 3px solid #4a9be8; outline-offset: 2px; }
