@@ -25,7 +25,7 @@
       <nav class="co-links" aria-label="Family of companies">
         ${[
           ["KYA Group", out(KYA, "company_bar"), "General contractor · 7 offices in CA &amp; TX"],
-          ["CHOICE", out(CHOICE, "company_bar"), "Contracting · offers CUUBE"],
+          ["CHOICE", out(CHOICE, "company_bar"), "Construction · offers CUUBE"],
         ].map(([name, href, blurb], i) => `<span class="co-item"><a href="${href}" aria-describedby="co-tip-${i}">${name}</a><span class="co-tip" id="co-tip-${i}" role="tooltip"><b>${name}</b>${blurb}<span class="co-go">Visit site →</span></span></span>`).join("")}
         <span class="co-item"><a href="index.html" aria-current="page">CUUBE</a></span>
         <i class="co-ind" aria-hidden="true"></i>
@@ -62,7 +62,7 @@
       <div class="family">
         <span class="fh">Family of companies</span>
         <a href="${out(KYA, "footer")}"><b>KYA Group</b><small>General contractor · 7 offices in CA &amp; TX</small></a>
-        <a href="${out(CHOICE, "footer")}"><b>CHOICE</b><small>Contracting · offers CUUBE</small></a>
+        <a href="${out(CHOICE, "footer")}"><b>CHOICE</b><small>Construction · offers CUUBE</small></a>
         <a href="index.html"><b>CUUBE</b><small>Pre-engineered steel buildings</small></a>
       </div>
       <p class="legal">CUUBE is offered by TLS Choice and built by KYA Group <span class="tbd">[describe KYA relationship]</span>. CSLB: TLS Choice #<span class="tbd">1025607 [confirm]</span> · KYA Group #<span class="tbd">984827 [confirm]</span> · DSA pre-check approvals <span class="tbd">04-119376, 04-119377, 04-121053, 04-122134, 04-122304, 04-122422, 04-122447 [confirm which are current]</span> · DIR #<span class="tbd">[number]</span></p>
