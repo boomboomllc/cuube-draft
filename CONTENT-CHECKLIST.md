@@ -75,7 +75,6 @@ Every option a buyer can pick. Please confirm or correct.
 - [ ] **Doors and light:** storefront entry, roll-up, sliding, telescoping doors, clerestory windows, Solatubes. Which go with which series?
 - [ ] **Extras:** Play&Park playground, bottle-fill station (schools and cities), backup power (cooling centers). Any others?
 - [ ] **Colors:** the panel color palette and which parts can be colored (field, accent, columns, beams, eaves, roof, trim)
-- [ ] **Budget range:** rough cost per square foot for each series, plus ballparks for big add-ons. Shown as a range, with final pricing from a CUUBE rep.
 - [ ] **3D preview:** 3D models of each series (Revit, SketchUp or 3D AutoCAD). 2D drawings alone aren't enough.
 
 ## 6. Funding and purchasing
@@ -106,7 +105,7 @@ All images on the draft are stand-ins. For each: OK to use (we own it or have ri
 
 - [ ] Privacy policy text (from counsel), its date, and the analytics provider named in it
 - [ ] Accessibility statement: confirm after a full accessibility audit
-- [ ] Any required disclaimers (e.g. on the budget range)
+- [ ] Any required disclaimers
 
 ## 10. Decisions
 
@@ -115,5 +114,4 @@ All images on the draft are stand-ins. For each: OK to use (we own it or have ri
 - [ ] Analytics: HubSpot tracking, Google Analytics, or none
 - [ ] Domain: replace cuube.info; consider buying cuube.com
 - [ ] Who manages the domain (DNS) today
-- [ ] Budget range: shown to everyone, or only after a quote request
 - [ ] Target launch date

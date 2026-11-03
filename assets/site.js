@@ -25,7 +25,6 @@
       <nav class="co-links" aria-label="Family of companies">
         ${[
           ["KYA Group", out(KYA, "company_bar"), "General contractor · 7 offices in CA &amp; TX"],
-          ["CHOICE", out(CHOICE, "company_bar"), "Construction · offers CUUBE"],
         ].map(([name, href, blurb], i) => `<span class="co-item"><a href="${href}" aria-describedby="co-tip-${i}">${name}</a><span class="co-tip" id="co-tip-${i}" role="tooltip"><b>${name}</b>${blurb}<span class="co-go">Visit site →</span></span></span>`).join("")}
         <span class="co-item"><a href="index.html" aria-current="page">CUUBE</a></span>
         <i class="co-ind" aria-hidden="true"></i>

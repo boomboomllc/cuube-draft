@@ -27,10 +27,9 @@ Supporting pages (Why CUUBE, Models, Projects, How to Buy) hold proof and detail
 
 ## Next steps
 
-1. **Finish and launch:** swap in real content from the [checklist](CONTENT-CHECKLIST.md), build the live 3D preview and budget range into the designer, connect the quote form to the CRM (HubSpot or Salesforce), add analytics, and go live on the CUUBE domain.
+1. **Finish and launch:** swap in real content from the [checklist](CONTENT-CHECKLIST.md), build the live 3D preview into the designer, connect the quote form to the CRM (HubSpot or Salesforce), add analytics, and go live on the CUUBE domain.
     - **Live 3D preview:** the building updates in 3D as buyers choose series, size, add-ons and colors. Needs 3D models of each series (Revit, SketchUp or 3D AutoCAD; 2D drawings alone aren't enough).
-    - **Budget range:** the designer ends with a budget estimate range ("final pricing confirmed by your CUUBE rep"), shown to everyone or after a quote request. Needs rough per-square-foot ranges per series and ballparks for big add-ons.
-2. **Admin site:** a separate login where the marketing team edits page text, photos and headlines, plus every designer option: series, sizes, uses, add-ons (and which add-ons fit which series) and the prices behind the budget range.
+2. **Admin site:** a separate login where the marketing team edits page text, photos and headlines, plus every designer option: series, sizes, uses, colors and add-ons (and which add-ons fit which series). No prices: sales quotes every project.
 
 ---
 ---
@@ -48,27 +47,27 @@ The draft is plain HTML, CSS and JavaScript (no framework or build step), so it 
 2. In Cloudflare (free plan, under a KYA email): **Workers & Pages → Create → Pages → Connect to Git**, and pick the repo. Every saved change then goes live in about a minute.
 3. Under **Custom domains**, add the CUUBE domain (a DNS change by whoever manages it).
 4. Connect the quote form to the CRM (HubSpot forms API or Salesforce Web-to-Lead), so each quote becomes a lead with the buyer's selections attached.
-5. Add the admin site ([Pages CMS](https://pagescms.org), free): marketing logs in and edits page text, photos, designer options and prices. Content moves into data files the pages read.
+5. Add the admin site ([Pages CMS](https://pagescms.org), free): marketing logs in and edits page text, photos and designer options. Content moves into data files the pages read.
 
-Exact design, the full designer (3D preview, budget range), about $0/month to host. Layout changes and new page types still need a developer.
+Exact design, the full designer (with 3D preview), about $0/month to host. Layout changes and new page types still need a developer.
 
 **B. WordPress**
-Rebuild the pages in a page builder (Elementor or the block editor) using the draft as the visual reference, and paste `assets/style.css` into **Additional CSS**. For the designer, embed its markup and script (Custom HTML block plus a code plugin such as WPCode) to keep the 3D preview and budget range; a multi-step form plugin (Gravity Forms, WPForms) is easier to edit but loses both. Easiest for staff to edit pages, but needs plugin and security updates, and the designer's options and prices still need their own editor or a developer.
+Rebuild the pages in a page builder (Elementor or the block editor) using the draft as the visual reference, and paste `assets/style.css` into **Additional CSS**. For the designer, embed its markup and script (Custom HTML block plus a code plugin such as WPCode) to keep the 3D preview and color swatches; a multi-step form plugin (Gravity Forms, WPForms) is easier to edit but loses both. Easiest for staff to edit pages, but needs plugin and security updates, and the designer's options still need their own editor or a developer.
 
 **C. Squarespace**
 Rebuild the pages with the section editor and set the brand colors and fonts in Site Styles. Lowest maintenance, least flexible.
 
-Squarespace has no built-in way to make the designer. Its own forms have no steps that change with earlier answers, no live preview, no color swatches and no budget math. That leaves two options:
+Squarespace has no built-in way to make the designer. Its own forms have no steps that change with earlier answers, no live preview, and no color swatches. That leaves two options:
 
 | | Embed this designer | Embed a form tool (Typeform, Jotform, HubSpot forms) |
 |---|---|---|
-| Buyers get | The full designer: steps, live preview, colors, budget range | A step-by-step questionnaire with some logic and a rough price calculation; no live preview or color swatches |
+| Buyers get | The full designer: steps, live preview, colors | A step-by-step questionnaire with some logic; no live preview or color swatches |
 | Cost | No fee for the designer itself, but it needs a Squarespace plan that allows custom code, which can cost more than the basic plan | Often a monthly fee for the form tool, on top of the Squarespace plan |
-| Who edits options and prices | A small admin site for the designer, or a developer | Marketing, inside the form tool |
+| Who edits options | A small admin site for the designer, or a developer | Marketing, inside the form tool |
 
 Either way the page text is edited in Squarespace. Each Squarespace site is its own subscription, so a separate CUUBE site adds a plan; adding CUUBE pages to an existing site doesn't, but they then share that site's menus, look and domain.
 
-**Hybrid:** run the main site on WordPress or Squarespace and host only the designer with Option A on a subdomain (for example `design.cuube.info`), with its own small admin site for options and prices.
+**Hybrid:** run the main site on WordPress or Squarespace and host only the designer with Option A on a subdomain (for example `design.cuube.info`), with its own small admin site for its options.
 
 ## Files
 
