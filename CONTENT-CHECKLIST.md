@@ -13,7 +13,7 @@ Tick items off as they're sent. Where a number is already filled in, it came fro
 Shown in the footer of every page and on How to Buy.
 
 - [ ] Phone: 714.462.2955
-- [ ] Email: CUUBE@tlschoice.com
+- [x] Email: cuube@thekyagroup.com
 - [ ] Address: 1800 E. McFadden Ave., Suite 2, Santa Ana, CA 92705
 - [ ] One line on how CUUBE, TLS Choice and KYA Group relate ("offered by TLS Choice and built by KYA Group ___")
 - [ ] Where quote requests go (which office or person), and who follows up

@@ -55,7 +55,7 @@
           <li><a href="how-to-buy.html">How to buy</a></li><li><a href="how-to-buy.html#funding">Funding</a></li>
           <li><a href="how-to-buy.html#purchasing">Purchasing options</a></li><li><a href="how-to-buy.html#contact">Talk to a specialist</a></li></ul></div>
         <div><h2 class="fh">Contact</h2><ul>
-          <li><a href="tel:+17144622955">714.462.2955</a></li><li><a href="mailto:CUUBE@tlschoice.com">CUUBE@tlschoice.com</a></li>
+          <li><a href="tel:+17144622955">714.462.2955</a></li><li><a href="mailto:cuube@thekyagroup.com">cuube@thekyagroup.com</a></li>
           <li>1800 E. McFadden Ave., Suite 2<br>Santa Ana, CA 92705 <span class="tbd">[confirm]</span></li></ul></div>
       </div>
       <div class="family">
