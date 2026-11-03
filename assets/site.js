@@ -269,7 +269,7 @@
 
   // Project filter
   document.querySelectorAll("[data-filter]").forEach((chip) => chip.addEventListener("click", () => {
-    document.querySelectorAll("[data-filter]").forEach((c) => c.classList.toggle("on", c === chip));
+    document.querySelectorAll("[data-filter]").forEach((c) => { c.classList.toggle("on", c === chip); c.setAttribute("aria-pressed", c === chip); });
     const f = chip.dataset.filter;
     document.querySelectorAll("[data-cat]").forEach((c) => {
       c.style.display = f === "all" || c.dataset.cat === f ? "" : "none";
@@ -323,7 +323,7 @@
 
     const useBox = builder.querySelector("#b-use"), sizeBox = builder.querySelector("#b-size"), addBox = builder.querySelector("#b-addons");
     const otherInput = builder.querySelector(".use-other");
-    const opt = (val, label, small, on, extra = "") => `<button type="button" class="opt${on ? " on" : ""}" data-val="${val}"${extra}>${label}${small ? `<small>${small}</small>` : ""}</button>`;
+    const opt = (val, label, small, on, extra = "") => `<button type="button" class="opt${on ? " on" : ""}" data-val="${val}" aria-pressed="${!!on}"${extra}>${label}${small ? `<small>${small}</small>` : ""}</button>`;
 
     function renderAud() {
       builder.querySelectorAll("[data-aud]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.aud === st.aud));
@@ -385,7 +385,7 @@
     addBox.addEventListener("click", (e) => {
       const b = e.target.closest(".opt"); if (!b) return;
       st.addons.has(b.dataset.val) ? st.addons.delete(b.dataset.val) : st.addons.add(b.dataset.val);
-      b.classList.toggle("on");
+      b.setAttribute("aria-pressed", b.classList.toggle("on"));
       update();
     });
     otherInput.addEventListener("input", () => { st.other = otherInput.value.trim(); update(); });
@@ -399,9 +399,10 @@
       tabs.forEach((t) => {
         const sw = pal.querySelector(`[data-val="${colors[t.dataset.part]}"]`);
         t.classList.toggle("on", t.dataset.part === part);
+        t.setAttribute("aria-pressed", t.dataset.part === part);
         t.querySelector(".cdot").style.background = sw.style.background;
       });
-      pal.querySelectorAll(".sw").forEach((s) => s.classList.toggle("on", s.dataset.val === colors[part]));
+      pal.querySelectorAll(".sw").forEach((s) => { s.classList.toggle("on", s.dataset.val === colors[part]); s.setAttribute("aria-pressed", s.dataset.val === colors[part]); });
       const label = tabs.find((t) => t.dataset.part === part).textContent;
       builder.querySelector(".cnow").innerHTML = `<b>${label}:</b> ${colors[part]}`;
     }

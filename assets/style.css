@@ -179,7 +179,7 @@ cite { display: block; margin-top: 20px; font-style: normal; color: var(--ink-2)
 .opt small { display: block; color: var(--ink-2); font-size: 13px; margin-top: 2px; }
 .opt.on { border-color: var(--accent); background: var(--accent-2); }
 .swatches { display: flex; gap: 12px; flex-wrap: wrap; }
-.sw { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--line); cursor: pointer; }
+.sw { width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px var(--line); cursor: pointer; }
 .sw.on { box-shadow: 0 0 0 2px var(--accent); }
 
 /* Forms */
