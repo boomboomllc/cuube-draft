@@ -124,7 +124,6 @@ a.card:hover { text-decoration: none; transform: translateY(-4px); box-shadow: 0
 /* Model cards */
 .asm3d { margin-top: 48px; border-radius: var(--radius); overflow: hidden; background: #eef2f7; }
 .asm3d iframe { display: block; width: 100%; height: min(640px, 80vh); border: 0; }
-.asm3d-link { margin-top: 12px; text-align: center; font-size: 14px; }
 @media (max-width: 600px) { .asm3d iframe { height: 560px; } }
 .model { text-align: center; align-items: center; }
 .model .ph { width: 100%; }

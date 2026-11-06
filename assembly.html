@@ -50,18 +50,19 @@ canvas#stage.dragging{cursor:grabbing}
 .title h1{font-family:"Montserrat",system-ui,sans-serif;font-weight:700;font-size:clamp(24px,2.8vw,38px);line-height:1.1;letter-spacing:-.02em;margin:0 0 .35em}
 .title p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
 
-.rail{position:fixed;left:clamp(16px,3vw,40px);top:50%;transform:translateY(-42%);width:250px;margin:0;padding:0;list-style:none;counter-reset:s}
+.rail{position:fixed;left:clamp(16px,3vw,40px);top:50%;transform:translateY(-55%);width:260px;margin:0;padding:0;list-style:none;counter-reset:s}
 .rail li{position:relative}
 .rail button{all:unset;cursor:pointer;display:grid;grid-template-columns:30px 1fr;gap:2px 10px;padding:9px 10px 9px 0;width:100%;border-radius:6px}
 .rail button:focus-visible{outline:2px solid var(--goldbar);outline-offset:2px}
 .rail .n{grid-row:1/3;font-family:"Montserrat",system-ui,sans-serif;font-weight:600;font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:9px;height:100%;transition:border-color .3s,color .3s}
 .rail .h{font-weight:600;font-size:15px;color:var(--muted);transition:color .3s}
-.rail .d{font-size:13px;color:var(--muted);opacity:.0;max-height:0;overflow:hidden;transition:opacity .3s,max-height .3s;line-height:1.35}
+.rail .d{font-size:13px;color:var(--muted);opacity:.7;line-height:1.35;transition:opacity .3s,color .3s}
+.rail button:hover .h{color:var(--ink)}
 .rail li[data-s="done"] .n{border-color:var(--navy);color:var(--navy)}
 .rail li[data-s="done"] .h{color:var(--ink)}
 .rail li[data-s="active"] .n{border-color:var(--goldbar);color:var(--gold)}
 .rail li[data-s="active"] .h{color:var(--ink)}
-.rail li[data-s="active"] .d{opacity:1;max-height:5em}
+.rail li[data-s="active"] .d{opacity:1;color:var(--ink)}
 
 .controls{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 20px);width:min(600px,calc(100% - 32px));display:flex;align-items:center;gap:12px;padding:8px 10px;border:1px solid var(--line);border-radius:14px;background:var(--chip);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .controls button{font:inherit;font-weight:500;font-size:14px;color:var(--ink);background:transparent;border:1px solid transparent;border-radius:9px;padding:7px 11px;cursor:pointer;white-space:nowrap}
@@ -70,7 +71,10 @@ canvas#stage.dragging{cursor:grabbing}
 .controls button[aria-pressed="true"]{background:var(--navy);color:var(--bg2)}
 #play{width:38px;height:38px;padding:0;display:grid;place-items:center;flex:none}
 #play svg{width:16px;height:16px;fill:currentColor}
-input[type=range]{flex:1;min-width:60px;accent-color:var(--goldbar);height:24px}
+.step{width:38px;height:38px;padding:0!important;display:grid;place-items:center;flex:none}
+.step svg{width:16px;height:16px}
+.controls button:disabled{opacity:.35;cursor:default;border-color:transparent}
+.count{flex:1;min-width:70px;text-align:center;font-size:13px;color:var(--muted);white-space:nowrap}
 .seg{display:flex;gap:2px;flex:none}
 
 @media (max-width:760px){
@@ -98,9 +102,11 @@ input[type=range]{flex:1;min-width:60px;accent-color:var(--goldbar);height:24px}
 
 <ol class="rail" id="rail"></ol>
 
-<div class="controls" role="group" aria-label="Animation controls">
-  <button id="play" aria-label="Pause"></button>
-  <input id="scrub" type="range" min="0" max="16" step="0.01" value="0" aria-label="Animation timeline">
+<div class="controls" role="group" aria-label="Assembly steps">
+  <button id="prev" class="step" aria-label="Previous step"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2.5 5 8l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <button id="play" aria-label="Play"></button>
+  <button id="next" class="step" aria-label="Next step"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 2.5 11 8l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  <span id="count" class="count" aria-live="polite"></span>
   <div class="seg">
     <button id="btnExp" aria-pressed="false">Exploded</button>
     <button id="btnAsm" aria-pressed="false">Assembled</button>
@@ -133,7 +139,7 @@ const STEPS=KIT?[
 /* ---------- scene ---------- */
 const canvas=document.getElementById('stage');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 const scene=new THREE.Scene();
@@ -143,7 +149,7 @@ scene.add(new THREE.HemisphereLight(0xffffff,0x7f8ea3,0.74));
 const sun=new THREE.DirectionalLight(0xffffff,0.8);
 sun.position.set(34,70,46);
 sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048);
+sun.shadow.mapSize.set(1024,1024);
 Object.assign(sun.shadow.camera,{left:-48,right:48,top:48,bottom:-48,near:10,far:200});
 sun.shadow.bias=-0.0005;
 scene.add(sun);
@@ -231,6 +237,8 @@ box(G1,2.4,0.78,1.1,C.wood,12,F+0.39,-7.5);
 [[3,2,C.seat],[4.4,3.6,C.seat2],[5.4,1.2,C.seat],[7.8,3,C.seat],[6.6,-1.2,C.seat2],[9,0.6,C.seat],[10.6,4.4,C.seat2],[3.6,-5,C.seat],[8.6,-5.4,C.seat2]]
   .forEach(([x,z,c])=>cyl(G1,0.42,0.55,c,x,F+0.275,z));
 cyl(G1,1.1,0.45,C.wood,5,F+0.225,-3.2);cyl(G1,1.1,0.45,C.wood,10.5,F+0.225,-2.4);
+// furniture: no outlines or cast shadows (many small parts, little to see)
+G1.children.slice(1).forEach(m=>{m.castShadow=false;m.children.filter(c=>c.isLineSegments).forEach(c=>m.remove(c));});
 
 /* 3 steel frame (monopitch) */
 const L2=layer(), G2=part(L2,0,6.6,0);
@@ -338,69 +346,69 @@ box(R,31.2,0.3,0.22,C.char,0,-0.15,ZL1-0.12,{edges:false});
 if(!KIT)for(const x of[-11.6,-5.8,0,5.8,11.6])for(const z of[-4.6,2.8])
   box(R,4.6,0.14,3.4,C.solar,x,0.42,zl(z),{m:{roughness:0.35,metalness:0.25}});
 
-/* ---------- timeline ---------- */
-const T=16, S=[0,1.4,2.8,4.2,5.6,7.0], DUR=1.6, HOLD=12.4;
-const clamp=v=>v<0?0:v>1?1:v;
+/* ---------- steps ---------- */
+// One step at a time: a layer moves into place, then holds long enough to read.
+// Step 1 (only the base in place) is the exploded view; step 6 is the finished building.
+const N=6, MOVE=1.1, READ=KIT?3:4, END_HOLD=5;
 const ease=p=>p<0.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
-function prog(k,t){
-  if(k===0)return 1;
-  if(t<HOLD)return ease(clamp((t-S[k])/DUR));
-  const st=HOLD+(5-k)*0.28;return 1-ease(clamp((t-st)/1.35));
-}
-function stepOf(t){
-  if(t>=HOLD)return {active:-1,done:t<HOLD+0.2?5:-1};
-  let active=0;
-  for(let k=1;k<6;k++)if(t>=S[k]-0.05)active=k;
-  const settled=t>=S[5]+DUR;
-  return settled?{active:-1,done:5}:{active,done:active-1};
-}
+const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const prog=layers.map((_,k)=>k===0?1:0); // 0 = flown out, 1 = in place
+let cur=0, playing=false, wait=0, onScreen=false, seen=false, dirty=true;
 
-/* ---------- UI ---------- */
 const rail=document.getElementById('rail');
 STEPS.forEach((s,i)=>{
   const li=document.createElement('li');li.dataset.s='todo';
   li.innerHTML=`<button type="button"><span class="n">${i+1}</span><span class="h">${s.h}</span><span class="d">${s.d}</span></button>`;
-  li.querySelector('button').addEventListener('click',()=>{setT(i===0?S[1]-0.3:S[i]+DUR);pause();});
+  li.querySelector('button').addEventListener('click',()=>go(i,true));
   rail.appendChild(li);
 });
 const lis=[...rail.children];
-let lastKey='';
-function updateRail(t){
-  const st=stepOf(t);
-  const key=st.active+'/'+st.done;if(key===lastKey)return;lastKey=key;
-  lis.forEach((li,i)=>{
-    let s='todo';
-    if(st.active===-1&&st.done===5)s=i===5?'active':'done';
-    else if(st.active===-1)s='todo';
-    else if(i===st.active)s='active';
-    else if(i<st.active)s='done';
-    li.dataset.s=s;
-  });
-  if(st.active===-1&&st.done===-1){lis[0].dataset.s='todo';}
-}
-
-const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const DONE=S[5]+DUR+0.5;
-let t=reduce?DONE:KIT?0.5:0, playing=!reduce&&!KIT, onScreen=true, kitStarted=false;
-const playBtn=document.getElementById('play'), scrub=document.getElementById('scrub');
-const btnExp=document.getElementById('btnExp'), btnAsm=document.getElementById('btnAsm');
+const playBtn=document.getElementById('play'), prevBtn=document.getElementById('prev'), nextBtn=document.getElementById('next');
+const count=document.getElementById('count'), btnExp=document.getElementById('btnExp'), btnAsm=document.getElementById('btnAsm');
 const ICON_PAUSE='<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"/><rect x="9.5" y="2" width="3.5" height="12" rx="1"/></svg>';
 const ICON_PLAY='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.2v11.6c0 .6.7 1 1.2.6l8.4-5.8c.4-.3.4-.9 0-1.2L5.2 1.6C4.7 1.2 4 1.6 4 2.2z"/></svg>';
-function syncPlay(){playBtn.innerHTML=playing?ICON_PAUSE:ICON_PLAY;playBtn.setAttribute('aria-label',playing?'Pause':'Play');}
-function pause(){playing=false;syncPlay();}
-function setT(v){t=v;scrub.value=v;}
-playBtn.addEventListener('click',()=>{playing=!playing;if(playing&&(t>=T-0.01||(KIT&&t>=DONE-0.01)))t=0;syncPlay();});
-let scrubbing=false;
-scrub.addEventListener('input',()=>{scrubbing=true;t=parseFloat(scrub.value);pause();});
-scrub.addEventListener('change',()=>{scrubbing=false;});
-btnExp.addEventListener('click',()=>{setT(0.5);pause();});
-btnAsm.addEventListener('click',()=>{setT(DONE);pause();});
-// Only draw while on screen (inside a page this uses the page's viewport)
+
+function go(k,user){
+  cur=Math.max(0,Math.min(N-1,k));wait=0;
+  if(user)setPlaying(false);
+  if(reduce)for(let j=1;j<N;j++)prog[j]=j<=cur?1:0;
+  lis.forEach((li,i)=>{li.dataset.s=i<cur?'done':i===cur?'active':'todo';});
+  count.textContent=`Step ${cur+1} of ${N}`;
+  prevBtn.disabled=cur===0;nextBtn.disabled=cur===N-1;
+  btnExp.setAttribute('aria-pressed',String(cur===0));btnAsm.setAttribute('aria-pressed',String(cur===N-1));
+  dirty=true;
+}
+function setPlaying(v){
+  playing=v;wait=0;
+  playBtn.innerHTML=playing?ICON_PAUSE:ICON_PLAY;playBtn.setAttribute('aria-label',playing?'Pause':'Play');
+}
+playBtn.addEventListener('click',()=>{if(!playing&&cur===N-1)go(0);setPlaying(!playing);});
+prevBtn.addEventListener('click',()=>go(cur-1,true));
+nextBtn.addEventListener('click',()=>go(cur+1,true));
+btnExp.addEventListener('click',()=>go(0,true));
+btnAsm.addEventListener('click',()=>go(N-1,true));
+go(reduce?N-1:0);setPlaying(false);
+
+// Move layers toward the current step; auto-advance after a pause to read
+function tick(dt){
+  let moving=false;
+  for(let k=1;k<N;k++){
+    const want=k<=cur?1:0;
+    if(prog[k]!==want){moving=true;prog[k]=want>prog[k]?Math.min(1,prog[k]+dt/MOVE):Math.max(0,prog[k]-dt/MOVE);}
+  }
+  if(playing&&!moving){
+    if(KIT&&cur===N-1){setPlaying(false);return moving;}
+    wait+=dt;
+    if(wait>=(cur===N-1?END_HOLD:READ))go(cur<N-1?cur+1:0);
+  }
+  return moving;
+}
+
+// Start playing the first time it scrolls into view; stop drawing while off screen
 new IntersectionObserver(es=>{
-  onScreen=es[0].isIntersecting;
-  if(onScreen&&KIT&&!kitStarted&&!reduce){kitStarted=true;setTimeout(()=>{if(t<1){playing=true;syncPlay();}},700);}
+  onScreen=es[0].isIntersecting;dirty=true;
+  if(onScreen&&!seen&&!reduce){seen=true;setTimeout(()=>{if(!seen||cur!==0||playing)return;setPlaying(true);},600);}
 },{threshold:0.35}).observe(canvas);
-syncPlay();scrub.value=t;
 
 /* ---------- camera orbit ---------- */
 let yaw=-0.7, pitch=0.3, zoom=1, lastTouch=-1e9, drag=null;
@@ -409,17 +417,17 @@ canvas.addEventListener('pointermove',e=>{
   if(!drag)return;
   yaw-=(e.clientX-drag.x)*0.006;
   pitch=Math.min(1.25,Math.max(0.06,pitch+(e.clientY-drag.y)*0.004));
-  drag={x:e.clientX,y:e.clientY};lastTouch=performance.now();
+  drag={x:e.clientX,y:e.clientY};lastTouch=performance.now();dirty=true;
 });
 const endDrag=()=>{drag=null;canvas.classList.remove('dragging');};
 canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);
-if(!EMBED)canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(1.6,Math.max(0.55,zoom*(1+e.deltaY*0.001)));lastTouch=performance.now();},{passive:false});
+if(!EMBED)canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(1.6,Math.max(0.55,zoom*(1+e.deltaY*0.001)));lastTouch=performance.now();dirty=true;},{passive:false});
 
 function resize(){
   const w=window.innerWidth,h=window.innerHeight;
   renderer.setSize(w,h,false);camera.aspect=w/h;
   if(w>760)camera.setViewOffset(w,h,-Math.min(170,w*0.12),0,w,h);else camera.clearViewOffset();
-  camera.updateProjectionMatrix();
+  camera.updateProjectionMatrix();dirty=true;
 }
 window.addEventListener('resize',resize);resize();
 
@@ -427,37 +435,36 @@ const darkQ=window.matchMedia('(prefers-color-scheme: dark)');
 function syncTheme(){
   const forced=document.documentElement.dataset.theme;
   const dark=forced?forced==='dark':darkQ.matches;
-  groundMat.opacity=dark?0.38:0.16;
+  groundMat.opacity=dark?0.38:0.16;dirty=true;
 }
 syncTheme();
 darkQ.addEventListener&&darkQ.addEventListener('change',syncTheme);
 new MutationObserver(syncTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
 
 /* ---------- loop ---------- */
+// Draws only when something changed: a layer moving, a drag, or the slow turn while playing
 let prev=performance.now();
 const target=new THREE.Vector3();
 function frame(now){
+  requestAnimationFrame(frame);
   const dt=Math.min(0.05,(now-prev)/1000);prev=now;
-  if(!onScreen){requestAnimationFrame(frame);return;}
-  if(playing){t+=dt;if(KIT&&t>=DONE){t=DONE;pause();}else if(t>=T)t-=T;if(!scrubbing)scrub.value=t;}
-  if(!reduce&&!drag&&now-lastTouch>2500)yaw+=dt*0.07;
+  if(!onScreen)return;
+  const moving=tick(dt);
+  const turning=playing&&!reduce&&!drag&&now-lastTouch>2500;
+  if(turning)yaw+=dt*0.05;
+  if(!moving&&!turning&&!dirty)return;
+  dirty=false;
 
   let a=0;
-  for(let k=0;k<6;k++){const p=prog(k,t);for(const pt of layers[k].parts)pt.g.position.copy(pt.off).multiplyScalar(1-p);if(k)a+=p;}
-  a=a/5*0.3+prog(5,t)*0.7;
+  for(let k=0;k<N;k++){const p=ease(prog[k]);for(const pt of layers[k].parts)pt.g.position.copy(pt.off).multiplyScalar(1-p);if(k)a+=p;}
+  a=a/5*0.3+ease(prog[5])*0.7;
 
   const aspectScale=Math.max(1,1.35/camera.aspect);
   const r=(112+(70-112)*a)*zoom*aspectScale;
   target.set(0,13+(6-13)*a,0);
   camera.position.set(target.x+r*Math.cos(pitch)*Math.sin(yaw),target.y+r*Math.sin(pitch),target.z+r*Math.cos(pitch)*Math.cos(yaw));
   camera.lookAt(target);
-
-  updateRail(t);
-  const asm=t>=S[5]+DUR&&t<HOLD, exp=t<S[1];
-  btnAsm.setAttribute('aria-pressed',String(asm));btnExp.setAttribute('aria-pressed',String(exp));
-
   renderer.render(scene,camera);
-  requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
 })();
